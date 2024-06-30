@@ -1,0 +1,54 @@
+06/29/2024
+
+# 'submit' event functionality MOSTLY complete
+
+# fixed task cell divs
+
+# began planning out how data will be structured in database and how to prepare the data
+
+# started registration.js
+
+# NOTES FOR TOMORROW    - add taskTitle
+                        - append tasks to user profiles
+                        - plan out user profile generation
+                        - plan out how to alert users that opt in to task notifs
+                        - PAY SPECIAL ATTENTION TO THE CODE AT THE END OF app.js, IT IS  NOT FINISHED OR PLACED IN THE RIGHT AREA 
+
+------------------------------------------------------------------------------------
+
+
+6/28/2024
+
+# finished adding leftPage data fields with basic styling
+
+# submit button now adds date and time to task cell top-right divs
+
+# submit button now adds priority to task cell
+
+# NOTES FOR TOMORROW - fix task cell divs
+
+
+------------------------------------------------------------------------------------
+
+
+06/27/2024
+
+# fixed taskCell arrangement
+
+# added dropdown menu field for task date/time information
+
+# NOTES FOR 6/28/24 - start by appending date/time info to taskCell entries
+
+
+------------------------------------------------------------------------------------
+
+
+06/26/2024
+
+# redefined taskCell as vertical flex stack containing 4 rows
+
+# cleaned up HTML, class/variable names, and JS arrangement
+
+# JS - appended child divs to taskCell rows 3, and 4 (1 also has a child)
+
+# began styling taskCell subelement arrangement and structure

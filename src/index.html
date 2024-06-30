@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>To Do List</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="index.css">
+        <link rel="apple-touch-icon" sizes="180x180" href="../favicons/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="../favicons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="../favicons/favicon-16x16.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div id="container">
+            <div id="leftPage">
+                <div id="leftPageTitleField">
+                    Add New Tasks
+                </div>
+                <div id="taskMainField">
+                    <form id="newTaskForm">
+                        <div id="taskDescriptionField">
+                            <label for="taskDescriptionEntry" placeholder="Describe your task" id="taskDescriptionLabel">Description</label>
+                            <input type="text" size="200" id="taskDescriptionEntry">
+                        </div>
+                        <div id="taskTimeField">
+                            <div id="taskTimeTitle">Date and Time</div>
+                            <div id="taskTimeDropdownField">
+                                <div class="taskDropdownColumn">
+                                    <label for="monthDropdown" class="taskDropdownLabels">Month</label>
+                                    <select name="month" id="monthDropdown">
+                                        <option value="" id="option-mBlank">select</option>
+                                        <option value="January" id="option-m1">January</option>
+                                        <option value="February" id="option-m2">February</option>
+                                        <option value="March" id="option-m3">March</option>
+                                        <option value="April" id="option-m4">April</option>
+                                        <option value="May" id="option-m5">May</option>
+                                        <option value="June" id="option-m6">June</option>
+                                        <option value="July" id="option-m7">July</option>
+                                        <option value="August" id="option-m8">August</option>
+                                        <option value="September" id="option-m9">September</option>
+                                        <option value="October" id="option-m10">October</option>
+                                        <option value="November" id="option-m11">November</option>
+                                        <option value="December" id="option-m12">December</option>
+                                    </select>
+                                </div>
+                                <div class="taskDropdownColumn">
+                                    <label for="dayDropdown" class="taskDropdownLabels">Day</label>
+                                    <select name="day" id="dayDropdown">
+                                        <option value="" id="option-dBlank">select</option>
+                                        <option value="1" id="option-d1">1</option>
+                                        <option value="2" id="option-d2">2</option>
+                                        <option value="3" id="option-d3">3</option>
+                                        <option value="4" id="option-d5">4</option>
+                                        <option value="5" id="option-d5">5</option>
+                                        <option value="6" id="option-d6">6</option>
+                                        <option value="7" id="option-d7">7</option>
+                                        <option value="8" id="option-d8">8</option>
+                                        <option value="9" id="option-d9">9</option>
+                                        <option value="10" id="option-d10">10</option>
+                                        <option value="11" id="option-d11">11</option>
+                                        <option value="12" id="option-d12">12</option>
+                                        <option value="13" id="option-d13">13</option>
+                                        <option value="14" id="option-d14">14</option>
+                                        <option value="15" id="option-d15">15</option>
+                                        <option value="16" id="option-d16">16</option>
+                                        <option value="17" id="option-d17">17</option>
+                                        <option value="18" id="option-d18">18</option>
+                                        <option value="19" id="option-d19">19</option>
+                                        <option value="20" id="option-d20">20</option>
+                                        <option value="21" id="option-d21">21</option>
+                                        <option value="22" id="option-d22">22</option>
+                                        <option value="23" id="option-d23">23</option>
+                                        <option value="24" id="option-d24">24</option>
+                                        <option value="25" id="option-d25">25</option>
+                                        <option value="26" id="option-d26">26</option>
+                                        <option value="27" id="option-d27">27</option>
+                                        <option value="28" id="option-d28">28</option>
+                                        <option value="29" id="option-d29">29</option>
+                                        <option value="30" id="option-d30">30</option>
+                                        <option value="31" id="option-d31">31</option>
+                                    </select>
+                                </div>
+                                <div class="taskDropdownColumn">
+                                    <label for="yearDropdown" class="taskDropdownLabels">Year</label>
+                                    <select name="year" id="yearDropdown">
+                                        <option value="" id="optionYearBlank">select</option>
+                                        <option value="" id=""></option>
+                                        <option value="" id=""></option>
+                                        <option value="" id=""></option>
+                                        <option value="" id=""></option>
+                                        <option value="" id=""></option>
+                                        <option value="" id=""></option>
+                                    </select>
+                                </div>
+                                <div class="taskDropdownColumn">
+                                    <label for="hourDropdown" class="taskDropdownLabels">Hour</label>
+                                    <select name="hour" id="hourDropdown">
+                                        <option value="" id="option-hBlank">select</option>
+                                        <option value="1" id="option-h1">1</option>
+                                        <option value="2" id="option-h2">2</option>
+                                        <option value="3" id="option-h3">3</option>
+                                        <option value="4" id="option-h4">4</option>
+                                        <option value="5" id="option-h5">5</option>
+                                        <option value="6" id="option-h6">6</option>
+                                        <option value="7" id="option-h7">7</option>
+                                        <option value="8" id="option-h8">8</option>
+                                        <option value="9" id="option-h9">9</option>
+                                        <option value="10" id="option-h10">10</option>
+                                        <option value="11" id="option-h11">11</option>
+                                        <option value="12" id="option-h12">12</option>
+                                    </select>
+                                </div>
+                                <div class="taskDropdownColumn">
+                                    <label for="minuteDropdown" class="taskDropdownLabels">Minute</label>
+                                    <select name="minute" id="minuteDropdown">
+                                        <option value="" id="option-minBlank">select</option>
+                                        <option value="00" id="option-min00">00</option>
+                                        <option value="05" id="option-min05">05</option>
+                                        <option value="10" id="option-min10">10</option>
+                                        <option value="15" id="option-min15">15</option>
+                                        <option value="20" id="option-min20">20</option>
+                                        <option value="25" id="option-min25">25</option>
+                                        <option value="30" id="option-min30">30</option>
+                                        <option value="35" id="option-min35">35</option>
+                                        <option value="40" id="option-min40">40</option>
+                                        <option value="45" id="option-min45">45</option>
+                                        <option value="50" id="option-min50">50</option>
+                                        <option value="55" id="option-min55">55</option>
+                                    </select>
+                                </div>
+                                <div class="taskDropdownColumn">
+                                    <label for="amPMDropdown" class="taskDropdownLabels">AM / PM</label>
+                                    <select name="amPM" id="amPMDropdown">
+                                        <option value="" id="option-amPMBlank">select</option>
+                                        <option value="AM" id="option-amPM-AM">AM</option>
+                                        <option value="PM" id="option-amPM-PM">PM</option>
+                                    </select>
+                                </div>
+                                <div class="taskDropdownColumn">
+                                    <div class="taskTimeCheckboxTitle">skip</div>
+                                    <input type="checkbox" id="taskTimeSkipCheckbox" name="taskTimeSkipCheckbox" value="skip">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="taskPriorityField">
+                            <div id="taskPriorityTitle">Priority</div>
+                            <div id="taskPriorityMainField">
+                                <div id="taskPrioritySelectionField">
+                                    <div id="taskPriorityLabelField">
+                                        <label for="priorityDropdown">task priority</label>
+                                    </div>
+                                    <div id="taskPriorityDropdownField">
+                                        <select name="priority" id="priorityDropdown">
+                                            <option value="" id="option-priorityBlank">select</option>
+                                            <option value="1" id="option-priority1">1</option>
+                                            <option value="2" id="option-priority2">2</option>
+                                            <option value="3" id="option-priority3">3</option>
+                                            <option value="4" id="option-priority4">4</option>
+                                            <option value="5" id="option-priority5">5</option>
+                                            <option value="skip" id="option-prioritySkip">skip</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="taskPriorityDescriptionBox">
+                                    <div class="taskPriorityDescriptionRow">1 = least urgent</div>
+                                    <div class="taskPriorityDescriptionRow">5 = most urgent</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="taskTagField">
+                            <div id="taskTagTitle">Tags</div>
+                            <div id="taskTagInputField">
+                                <input type="text" size="100" id="taskTagEntry">
+                            </div>
+                            <div id="taskTagDescriptionField">
+                                <p>format: #[tag1] #[tag2] #[tag3] ...
+                            </div>
+                        </div>                    
+                        <div id="taskSubmitButtonField">
+                            <button type="submit" id="taskSubmitButton">Submit Task</button>
+                        </div>
+                    </form>                
+                </div>
+            </div>
+            <div id="rightPage">
+                <div id="rightPageTitleField">
+                    Task List
+                </div>
+                <div id="rightPageBufferSpace"></div>
+                <div id="userTaskField">
+                    <div class="taskColumn">
+                        <div class="taskCell" id="taskCell-1"></div>
+                        <div class="taskCell" id="taskCell-2"></div>
+                        <div class="taskCell" id="taskCell-3"></div>
+                    </div>
+                </div>
+                <div id="taskPageButtonField"></div>
+            </div>
+        </div>
+        <script src="app.js"></script>
+    </body>
+</html>
