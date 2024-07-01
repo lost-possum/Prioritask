@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>To Do List</title>
+        <title>Prioritask</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="index.css">
         <link rel="apple-touch-icon" sizes="180x180" href="../favicons/apple-touch-icon.png">
@@ -16,7 +16,9 @@
                 <div id="taskMainField">
                     <form id="newTaskForm">
                         <div id="taskDescriptionField">
-                            <label for="taskDescriptionEntry" placeholder="Describe your task" id="taskDescriptionLabel">Description</label>
+                            <div id="taskDescriptionLabelField">
+                                <label for="taskDescriptionEntry" placeholder="Describe your task" id="taskDescriptionLabel">Description</label>
+                            </div>
                             <input type="text" size="200" id="taskDescriptionEntry">
                         </div>
                         <div id="taskTimeField">
@@ -166,12 +168,15 @@
                         </div>
                         <div id="taskTagField">
                             <div id="taskTagTitle" class="taskTagFieldRow">Tags</div>
-                            <div id="taskTagSelectorRow" class="taskTagFieldRow">
-                                <button id="tagSelectorButton">Tag List</button>
-                                <div id="tagSelector">
-                                    <div class="tag-selector-tag">Tag 1</div>
-                                    <div class="tag-selector-tag">Tag 2</div>
-                                    <div class="tag-selector-tag">Tag 3</div>
+                            <div id="taskTagListRow" class="taskTagFieldRow">
+                               <button id="tagListModalButton">Tag List</button>
+                                <div id="tagListModal" class="modal">
+                                    <div class="modal-content">
+                                        <span class="close">&times;</span>
+                                        <div id="tagListModalTitle">
+                                            <h3>Tags</h3>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div id="taskTagInputField">
@@ -201,7 +206,6 @@
             </div>
         </div>
         <div id="ghostSpace">
-
         </div>
         <script src="app.js"></script>
     </body>

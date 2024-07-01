@@ -26,51 +26,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     populateYearDropdown();
 
-    function populateTagSelector() {
-        var tags = ['#work', '#personal', '#urgent', '#important', '#shopping'];
-        var tagSelector = document.getElementById('tagSelector');
-        tagSelector.innerHTML = '';
-
-        tags.forEach(function(tag) {
-            var tagElement = document.createElement('div');
-            tagElement.classList.add('tag-selector-tag');
-            tagElement.textContent = tag;
-
-            tagElement.addEventListener('click', function() {
-                addTagToEntry(tag);
-            });
-
-            tagSelector.appendChild(tagElement);
-        });
-    }
-
-    function addTagToEntry(tag) {
-        var taskTagEntry = document.getElementById('taskTagEntry');
-        var currentValue = taskTagEntry.value.trim();
-
-        if (currentValue === '') {
-            taskTagEntry.value = tag;
-        } else {
-            taskTagEntry.value = currentValue + ' ' + tag;
-        }
-    }
-
-    var openTagSelectorButton = document.getElementById('openTagSelectorButton');
-    openTagSelectorButton.addEventListener('click', function() {
-        var tagSelector = document.getElementById('tagSelector');
-        tagSelector.style.display = 'block';
-    });
-
-    document.addEventListener('click', function(e) {
-        var tagSelectorContainer = document.getElementById('tagSelectorContainer');
-        if (!tagSelectorContainer.contains(e.target)) {
-            var tagSelector = document.getElementById('tagSelector');
-            tagSelector.style.display = 'none';
-        }
-    });
-
-    populateTagSelector();
-
     var taskForm = document.getElementById('newTaskForm');
     taskForm.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -237,4 +192,23 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('taskSubmitButton').click();
         }
     });
+
+    var tagListModal = document.getElementById('tagListModal');
+    var tagListModalButton = document.getElementById('tagListModalButton');
+    var closeTagListModal = document.getElementsByClassName('close')[0];
+
+    tagListModalButton.onclick = function(e) {
+        e.preventDefault();
+        tagListModal.style.display = "block";
+    }
+
+    closeTagListModal.onclick = function() {
+        tagListModal.style.display = "none";
+    }
+
+    window.onclick = function(e) {
+        if (e.target == tagListModal) {
+            tagListModal.style.display = "none";
+        }
+    }
 });
