@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const options = yearDropdown.getElementsByTagName('option');
         const selectedYearValue = localStorage.getItem('selectedYearValue');
 
-        for (let i = 1; i < options.length; i++) {
+        for (let i = 1; i < options.length; i++) {c
             options[i].value = currentYear + (i - 1);
             options[i].id = `optionYear-${currentYear + (i - 1)}`;
             options[i].textContent = currentYear + (i - 1);
@@ -46,11 +46,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function saveTasksToCookies() {
         var tasks = [];
-        // collect task data and save to tasks array
-        // example
-        // tasks.push({ taskInput: taskInputValue, tagsInput: tagsInputValue});
-
-        // convert tasks array to JSON string and set as cookies
         
         saveTasksToCookies('savedTasks', JSON.stringify(tasks, 30));
     }
@@ -59,7 +54,6 @@ document.addEventListener('DOMContentLoaded', function() {
         setCookie('userTags', JSON.stringify(tagsArray), 30);
     }
 
-    // helper function to set cookie
     function setCookie(name, value, days) {
         var expires = "";
         if (days) {
@@ -70,7 +64,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.cookie = name + "=" + (value || "") + expires + ";path=/";
     }
 
-    // helper funtion to get cookie value by name
     function getCookie(name) {
         var nameEQ = name + "=";
         var cookies = document.cookie.split(';');

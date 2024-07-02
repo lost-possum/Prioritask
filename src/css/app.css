@@ -1,47 +1,39 @@
-* {
-    box-sizing: border-box;
-    font-family: 'Courier New', 'Courier', monospace;
-}
-
-a {
-    color: #2821ad;
-}
-
-a:visited {
-    color: #0d7211;
-}
-
-#container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100vw;
-}
-
 #leftPage {
+    left: 0;
+}
+
+#rightPage {
+    right: 0;
+}
+
+.page {
     position: absolute;
     top: 0;
-    left: 0;
+    right: 0;
     height: 100vh;
     width: 50vw;
-    border-right: 1px solid black;
-    overflow: hidden;
+    border-left: 1px solid black;
+    overflow-y: hidden;
 }
 
-#leftPageTitleField {
+/* main styles */
+
+.pageTitleField {
     position: relative;
     display: flex;
     top: 0;
-    left: 0;
-    height: 10vh;
     min-height: fit-content;
+    height: 10vh;
     width: 100%;
     justify-content: center;
     align-items: center;
     font-size: 1.75em;
     font-weight: bold;
     border-bottom: 1px solid black;
+}
+
+#leftPageTitleField {
+    left: 0;
 }
 
 #taskMainField {
@@ -353,29 +345,8 @@ a:visited {
     border: 1px dotted black;
 }
 
-#rightPage {
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100vh;
-    width: 50vw;
-    border-left: 1px solid black;
-    overflow-y: hidden;
-}
-
 #rightPageTitleField {
-    position: relative;
-    display: flex;
-    top: 0;
     right: 0;
-    height: 10vh;
-    min-height: fit-content;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.75em;
-    font-weight: bold;
-    border-bottom: 1px solid black;
 }
 
 #rightPageBufferSpace {
@@ -527,8 +498,4 @@ a:visited {
     width: 100%;
     justify-content: space-around;
     border: 1px solid black;
-}
-
-#ghostSpace {
-    display: none;
 }
