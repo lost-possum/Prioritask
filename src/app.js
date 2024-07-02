@@ -185,29 +185,52 @@ document.addEventListener('DOMContentLoaded', function() {
     
         document.getElementById('taskColumn').appendChild(taskCellDiv);
 
-        window.alert(`Task ${taskCount} successfully added to your list`);
+        window.alert(`Task ${taskCount} successfully added to your list!`);
     }
 
     function createTagTable(tagsArray) {
         var tagListInnerModalContent = document.getElementById('tagListInnerModalContent');
-        var existingTable = document.getElementById('tagTable');
-        if (existingTable) {
-            existingTable.remove();
-        }
-        var tagTable = document.createElement('table');
-        tagTable.id = 'tagTable';
+        var tagTable = document.getElementById('tagTable');
+        var defaultTagTable = document.getElementById('defaultTagTable');
+
+        if (defaultTagTable) {
+            defaultTagTable.remove();
+        };
+ 
+        if (!tagTable) {
+            tagTable = document.createElement('table');
+            tagTable.id = 'tagTable';
+
+            var tagHeaderRow = tagTable.insertRow();
+            var tagHeaderCell = document.createElement('th');
+            tagHeaderCell.id = 'tagHeaderCell';
+            tagHeaderCell.textContent = 'Tags';
+            tagHeaderRow.appendChild(tagHeaderCell);
+            tagListInnerModalContent.appendChild(tagTable);
+        };
+
+        var existingTags = new Set();
+        Array.from(tagTable.getElementsByClassName('tag')).forEach(tagElement => {
+            existingTags.add(tagElement.textContent.trim());
+        });
+
         tagsArray.forEach(function(tag) {
+            tag = tag.trim();
+            if (existingTags.has('#' + tag)) {
+                return;
+            }
+
             var tagRow = tagTable.insertRow();
             var tagCell = tagRow.insertCell();
             var tagElement = document.createElement('span');
-            tagElement.className = 'tag';
+            tagElement.className = 'tag'
             tagElement.textContent = '#' + tag;
 
             tagCell.appendChild(tagElement);
-        });
 
-        tagListInnerModalContent.appendChild(tagTable);
-    }
+            existingTags.add('#' + tag);
+        });
+    };
 
     document.getElementById('taskDescriptionEntry').addEventListener('keydown', function(e) {
         if (e.key === 'Enter') {
