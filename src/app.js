@@ -26,6 +26,69 @@ document.addEventListener('DOMContentLoaded', function() {
 
     populateYearDropdown();
 
+    function loadTasksFromCookies() {
+        var savedTasks = getCookie('savedTasks');
+        if (savedTasks) {
+            savedTasks = JSON.parse(savedTasks);
+            savedTasks.forEach(function(taskData) {
+                createTask(taskData.taskInput, taskData.tagsInput);
+            });
+        }
+    }
+
+    function loadUserTagsFromCookies() {
+        var userTags = getCookie('userTags');
+        if (userTags) {
+            userTags = JSON.parse(userTags);
+            createTagTable(userTags);
+        }
+    }
+
+    function saveTasksToCookies() {
+        var tasks = [];
+        // collect task data and save to tasks array
+        // example
+        // tasks.push({ taskInput: taskInputValue, tagsInput: tagsInputValue});
+
+        // convert tasks array to JSON string and set as cookies
+        
+        saveTasksToCookies('savedTasks', JSON.stringify(tasks, 30));
+    }
+
+    function saveUserTagsToCookies(tagsArray) {
+        setCookie('userTags', JSON.stringify(tagsArray), 30);
+    }
+
+    // helper function to set cookie
+    function setCookie(name, value, days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + ";path=/";
+    }
+
+    // helper funtion to get cookie value by name
+    function getCookie(name) {
+        var nameEQ = name + "=";
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i];
+            while (cookie.charAt(0) === ' ') {
+                cookie = cookie.substring(1, cookie.length);
+            }
+            if (cookie.indexOf(nameEQ) ===0) {
+                return cookie.substring(nameEQ.length, cookie.length);
+            }
+        }
+        return null;
+    }
+
+    loadTasksFromCookies();
+    loadUserTagsFromCookies();
+
     var taskForm = document.getElementById('newTaskForm');
     taskForm.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -186,6 +249,14 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('taskColumn').appendChild(taskCellDiv);
 
         window.alert(`Task ${taskCount} successfully added to your list!`);
+        localStorage.removeItem('taskDescriptionEntry');
+        localStorage.removeItem('taskTagEntry');
+
+        var inputElements = document.querySelectorAll('input');
+        inputElements.forEach(function(input) {
+            input.style.overflow = 'hidden';
+            input.style.overflow = '';
+        });
     }
 
     function createTagTable(tagsArray) {
@@ -225,9 +296,7 @@ document.addEventListener('DOMContentLoaded', function() {
             var tagElement = document.createElement('span');
             tagElement.className = 'tag'
             tagElement.textContent = '#' + tag;
-
             tagCell.appendChild(tagElement);
-
             existingTags.add('#' + tag);
         });
     };

@@ -11,10 +11,6 @@ a:visited {
     color: #0d7211;
 }
 
-input {
-    overflow: scroll;
-}
-
 #container {
     position: absolute;
     top: 0;
@@ -30,7 +26,7 @@ input {
     height: 100vh;
     width: 50vw;
     border-right: 1px solid black;
-    overflow: auto;
+    overflow: hidden;
 }
 
 #leftPageTitleField {
@@ -58,7 +54,7 @@ input {
     border-bottom: 1px solid black;
 }
 
-#taskDescriptionField {
+#taskDescriptionField, #taskTagEntryField {
     position: relative;
     flex-direction: column;
     display: flex;
@@ -315,21 +311,32 @@ input {
     border: 1px dotted black;
 }
 
-#taskSubmitButtonField {
+#leftPageBottomButtonField {
     position: relative;
     display: flex;
-    margin-top: 3vh;
+    margin-top: 2.5vh;
     margin-left: 1.5vw;
-    height: 6vh;
+    height: 7vh;
     width: calc(100% - 1.5vw);
     align-items: center;
     border: 1px dotted black;
 }
 
-#taskSubmitButton {
+.leftPageBottomButtonSubfield {
+    position: relative;
+    display: flex;
+    height: 100%;
+    flex: 1;
+    padding: 0 2.5vw;
+    align-items: center;
+    justify-content: space-around;
+    border: 1px dotted black;
+}
+
+.bottomRowButton {
     margin-top: auto;
     margin-bottom: auto;
-    margin-left: 2vw;
+    font-size: 1em;
     background-color: grey;
 }
 

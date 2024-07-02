@@ -1,2 +1,2 @@
 # Prioritask
-Simple cookie-based task manager 
+Simple cookie-based task manager

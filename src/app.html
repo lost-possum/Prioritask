@@ -183,11 +183,17 @@
                                 <input type="text" size="100" id="taskTagEntry">
                             </div>
                             <div id="taskTagDescriptionField">
-                                <p>format: #tag1 #tag2 #tag3...
+                                <p>format: #tag1 #tag2 #tag3...</p>
                             </div>
                         </div>                    
-                        <div id="taskSubmitButtonField">
-                            <button type="submit" id="taskSubmitButton">Submit Task</button>
+                        <div id="leftPageBottomButtonField">
+                            <div class="leftPageBottomButtonSubfield" id="leftPageBottomButtonSubfield-1">
+                                <button type="submit" class="bottomRowButton" id="taskSubmitButton">Submit Task</button>
+                            </div>
+                            <div class="leftPageBottomButtonSubfield" id="leftPageBottomButtonSubfield-1">
+                                <button class="bottomRowButton" id="cookieExportButton">Export</button>
+                                <button class="bottomRowButton" id="cookieExportButton">Import</button>
+                            </div>
                         </div>
                     </form>                
                 </div>
@@ -208,5 +214,6 @@
         <div id="ghostSpace">
         </div>
         <script src="app.js"></script>
+        <script src="cookies.js"></script>
     </body>
 </html>
