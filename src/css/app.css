@@ -16,18 +16,16 @@
     overflow-y: hidden;
 }
 
-/* main styles */
-
 .pageTitleField {
     position: relative;
     display: flex;
     top: 0;
     min-height: fit-content;
-    height: 10vh;
+    height: 7vh;
     width: 100%;
     justify-content: center;
     align-items: center;
-    font-size: 1.75em;
+    font-size: 1.65em;
     font-weight: bold;
     border-bottom: 1px solid black;
 }
@@ -69,7 +67,7 @@
 
 #taskDescriptionEntry {
     height: 100%;
-    width: 100%;
+    width: 40vw;
     overflow: hidden;
     word-wrap: break-word;
     resize: none;
@@ -117,7 +115,7 @@
     flex-direction: column;
     margin-top: 3vh;
     height: 18vh;
-    width: 50vw;
+    width: 49.25vw;
     margin-left: 1.5vw;
     border: 1px dotted black;
 }
@@ -126,7 +124,7 @@
     position: relative;
     display: flex;
     height: fit-content;
-    width: 100%;
+    width: fit-content;
     align-items: center;
     padding: 7px 5px;
     border: 1px dotted black;
@@ -199,7 +197,7 @@
     flex-direction: column;
     margin-top: 3vh;
     height: 21vh;
-    width: 50vw;
+    width: 49vw;
     margin-left: 1.5vw;
     border: 1px dotted black;
 }
@@ -230,7 +228,7 @@
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
+    overflow: scroll;
     background-color: #000000;
     background-color: #00000066;
 }
@@ -256,10 +254,34 @@
     cursor: pointer;
 }
 
+.tagContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px dotted black;
+}
+
+.tag {
+    position: relative;
+    display: flex;
+    height: 100%;
+    width: fit-content;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    font-size: 0.85em;
+    font-weight: bold;
+}
+
 #tagTable {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
+}
+
+#tagTable th {
+    font-size: 2em;
+    margin-bottom: 1vh;
 }
 
 #tagTable tr {
@@ -282,6 +304,7 @@
 
 #taskTagEntry {
     padding: 0 15px;
+    width: 40vw;
 }
 
 #taskTagInput {
@@ -332,19 +355,6 @@
     background-color: grey;
 }
 
-.tag {
-    position: relative;
-    display: flex;
-    height: 100%;
-    width: fit-content;
-    justify-content: center;
-    align-items: center;
-    padding: 0 10px;
-    font-size: 0.85em;
-    font-weight: bold;
-    border: 1px dotted black;
-}
-
 #rightPageTitleField {
     right: 0;
 }
@@ -378,7 +388,7 @@
     position: relative;
     display: flex;
     margin: auto;
-    font-size: 1.75em;
+    font-size: 1.5em;
     font-weight: bold;
 }
 

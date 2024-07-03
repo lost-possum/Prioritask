@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const options = yearDropdown.getElementsByTagName('option');
         const selectedYearValue = localStorage.getItem('selectedYearValue');
 
-        for (let i = 1; i < options.length; i++) {c
+        for (let i = 1; i < options.length; i++) {
             options[i].value = currentYear + (i - 1);
             options[i].id = `optionYear-${currentYear + (i - 1)}`;
             options[i].textContent = currentYear + (i - 1);
@@ -88,10 +88,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         var taskDescriptionEntry = document.getElementById('taskDescriptionEntry');
         var taskTagEntry = document.getElementById('taskTagEntry');
-
         var taskDescriptionValue = taskDescriptionEntry.value.trim();
         var taskTagValue = taskTagEntry.value.trim();
-
         var savedTaskDescriptionEntry = localStorage.getItem('taskDescriptionEntry');
         var savedTaskTagEntry = localStorage.getItem('taskTagEntry');
 
@@ -124,7 +122,6 @@ document.addEventListener('DOMContentLoaded', function() {
         var taskBottomRowDiv = document.createElement('div');
         var taskInfoBarDiv = document.createElement('div');
         var taskCheckBoxDiv = document.createElement('div');
-        var ghostSpaceDiv = document.getElementById('ghostSpace');
 
         var selectedMonth = document.getElementById('monthDropdown').value;
         var selectedDay = document.getElementById('dayDropdown').value;
@@ -217,7 +214,6 @@ document.addEventListener('DOMContentLoaded', function() {
             tagElement.className = 'tag';
             tagElement.textContent = '#' + tag;
             taskTagRowDiv.appendChild(tagElement);
-            ghostSpaceDiv.appendChild(tagElement);
         });
 
         createTagTable(processedTags);
@@ -269,7 +265,27 @@ document.addEventListener('DOMContentLoaded', function() {
             var tagHeaderCell = document.createElement('th');
             tagHeaderCell.id = 'tagHeaderCell';
             tagHeaderCell.textContent = 'Tags';
+            tagHeaderCell.colspan = 6;
             tagHeaderRow.appendChild(tagHeaderCell);
+
+            var buttonRow = tagTable.insertRow();
+            var buttonCell = document.createElement('td');
+            buttonCell.colSpan = 6;
+            buttonCell.style.textAlign = 'center';
+
+            var tagCellSortButton = document.createElement('button');
+            tagCellSortButton.textContent = 'Sort (A-Z)';
+            tagCellSortButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                sortTagsAZ();
+            });
+
+            var tagCellDeleteButton = document.createElement('button');
+            tagCellDeleteButton.textContent = 'Delete Selected';
+
+            buttonCell.appendChild(tagCellSortButton);
+            buttonCell.appendChild(tagCellDeleteButton);
+            buttonRow.appendChild(buttonCell);
             tagListInnerModalContent.appendChild(tagTable);
         };
 
@@ -278,21 +294,73 @@ document.addEventListener('DOMContentLoaded', function() {
             existingTags.add(tagElement.textContent.trim());
         });
 
+        var currentRow = tagTable.insertRow();
+        var tagCountInRow = 0;
+
         tagsArray.forEach(function(tag) {
+            if (existingTags.size >= 42) {
+                return;
+            }
+
             tag = tag.trim();
             if (existingTags.has('#' + tag)) {
                 return;
             }
 
-            var tagRow = tagTable.insertRow();
-            var tagCell = tagRow.insertCell();
+            if (tagCountInRow >= 6) {
+                currentRow = tagTable.insertRow();
+                tagCountInRow = 0;
+            }
+
+            var tagCell = currentRow.insertCell();
+            var tagContainer = document.createElement('div');
+            tagContainer.className = 'tagContainer';
+
             var tagElement = document.createElement('span');
             tagElement.className = 'tag'
             tagElement.textContent = '#' + tag;
-            tagCell.appendChild(tagElement);
+
+            var checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.className = 'tagCheckbox';
+
+            tagContainer.appendChild(tagElement);
+            tagContainer.appendChild(checkbox);
+            tagCell.appendChild(tagContainer);
+
             existingTags.add('#' + tag);
+            tagCountInRow++;
         });
     };
+
+    function sortTagsAZ() {
+        var tagTable = document.getElementById('tagTable');
+        if (!tagTable) return;
+
+        var tagsArray = Array.from(tagTable.getElementsByClassName('tag')).map(tagElement => tagElement.textContent.trim().substring(1));
+        tagsArray.sort();
+
+        while (tagTable.rows.length > 1) {
+            tagTable.deleteRow();
+        }
+
+        var currentRow = tagTable.insertRow();
+        var tagCountInRow = 0;
+
+        tagsArray.forEach(function(tag) {
+            if (tagCountInRow >= 6) {
+                currentRow = tagTable.insertRow();
+                tagCountInRow = 0;
+            }
+
+            var tagCell = currentRow.insertCell();
+            var tagElement = document.createElement('span');
+            tagElement.className = 'tag';
+            tagElement.textContent = '#' + tag;
+            tagCell.appendChild(tagElement);
+            tagCountInRow++;
+        });
+    }
 
     document.getElementById('taskDescriptionEntry').addEventListener('keydown', function(e) {
         if (e.key === 'Enter') {
