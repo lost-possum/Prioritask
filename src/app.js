@@ -26,61 +26,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     populateYearDropdown();
 
-    function loadTasksFromCookies() {
-        var savedTasks = getCookie('savedTasks');
-        if (savedTasks) {
-            savedTasks = JSON.parse(savedTasks);
-            savedTasks.forEach(function(taskData) {
-                createTask(taskData.taskInput, taskData.tagsInput);
-            });
-        }
-    }
-
-    function loadUserTagsFromCookies() {
-        var userTags = getCookie('userTags');
-        if (userTags) {
-            userTags = JSON.parse(userTags);
-            createTagTable(userTags);
-        }
-    }
-
-    function saveTasksToCookies() {
-        var tasks = [];
-        
-        saveTasksToCookies('savedTasks', JSON.stringify(tasks, 30));
-    }
-
-    function saveUserTagsToCookies(tagsArray) {
-        setCookie('userTags', JSON.stringify(tagsArray), 30);
-    }
-
-    function setCookie(name, value, days) {
-        var expires = "";
-        if (days) {
-            var date = new Date();
-            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-            expires = "; expires=" + date.toUTCString();
-        }
-        document.cookie = name + "=" + (value || "") + expires + ";path=/";
-    }
-
-    function getCookie(name) {
-        var nameEQ = name + "=";
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = cookies[i];
-            while (cookie.charAt(0) === ' ') {
-                cookie = cookie.substring(1, cookie.length);
-            }
-            if (cookie.indexOf(nameEQ) ===0) {
-                return cookie.substring(nameEQ.length, cookie.length);
-            }
-        }
-        return null;
-    }
-
-    loadTasksFromCookies();
-    loadUserTagsFromCookies();
 
     var taskForm = document.getElementById('newTaskForm');
     taskForm.addEventListener('submit', function(e) {
@@ -209,12 +154,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
         taskTagRowDiv.appendChild(taskTagRowBufferBoxDiv);
 
-        processedTags.forEach(function(tag) {
+        processedTags.forEach(function(tag, index) {
             var tagElement = document.createElement('span');
             tagElement.className = 'tag';
+            tagElement.id = `taskCell${taskCount}-tag${index + 1}`;
             tagElement.textContent = '#' + tag;
             taskTagRowDiv.appendChild(tagElement);
-        });
+        });             
 
         createTagTable(processedTags);
 
@@ -265,7 +211,7 @@ document.addEventListener('DOMContentLoaded', function() {
             var tagHeaderCell = document.createElement('th');
             tagHeaderCell.id = 'tagHeaderCell';
             tagHeaderCell.textContent = 'Tags';
-            tagHeaderCell.colspan = 6;
+            tagHeaderCell.colSpan = 6;
             tagHeaderRow.appendChild(tagHeaderCell);
 
             var buttonRow = tagTable.insertRow();
@@ -282,6 +228,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
             var tagCellDeleteButton = document.createElement('button');
             tagCellDeleteButton.textContent = 'Delete Selected';
+            tagCellDeleteButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                deleteTags();
+            });
 
             buttonCell.appendChild(tagCellSortButton);
             buttonCell.appendChild(tagCellDeleteButton);
@@ -296,6 +246,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         var currentRow = tagTable.insertRow();
         var tagCountInRow = 0;
+        var tagListTagCount = 1;
 
         tagsArray.forEach(function(tag) {
             if (existingTags.size >= 42) {
@@ -317,7 +268,8 @@ document.addEventListener('DOMContentLoaded', function() {
             tagContainer.className = 'tagContainer';
 
             var tagElement = document.createElement('span');
-            tagElement.className = 'tag'
+            tagElement.className = 'tag';
+            tagElement.id = `tagList-tag${tagListTagCount}`;
             tagElement.textContent = '#' + tag;
 
             var checkbox = document.createElement('input');
@@ -330,6 +282,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             existingTags.add('#' + tag);
             tagCountInRow++;
+            tagListTagCount++;
         });
     };
 
@@ -338,14 +291,16 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!tagTable) return;
 
         var tagsArray = Array.from(tagTable.getElementsByClassName('tag')).map(tagElement => tagElement.textContent.trim().substring(1));
+
         tagsArray.sort();
 
-        while (tagTable.rows.length > 1) {
-            tagTable.deleteRow();
+        while (tagTable.rows.length > 2) {
+            tagTable.deleteRow(2);
         }
 
         var currentRow = tagTable.insertRow();
         var tagCountInRow = 0;
+        var tagListTagCount = 1;
 
         tagsArray.forEach(function(tag) {
             if (tagCountInRow >= 6) {
@@ -354,11 +309,56 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             var tagCell = currentRow.insertCell();
+            var tagContainer = document.createElement('div');
+            tagContainer.className = 'tagContainer';
+
             var tagElement = document.createElement('span');
             tagElement.className = 'tag';
+            tagElement.id = `tagList-tag${tagListTagCount}`;
             tagElement.textContent = '#' + tag;
-            tagCell.appendChild(tagElement);
+
+            var checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.className = 'tagCheckbox';
+
+            tagContainer.appendChild(tagElement);
+            tagContainer.appendChild(checkbox);
+            tagCell.appendChild(tagContainer);
+
             tagCountInRow++;
+            tagListTagCount++;
+        });
+    }
+
+    function deleteTags() {
+        var tagTable = document.getElementById('tagTable');
+        if (!tagTable) return;
+
+        var checkboxes = tagTable.getElementsByClassName('tagCheckbox');
+        var tagsToDelete = [];
+
+        Array.from(checkboxes).forEach(function(checkbox) {
+            if (checkbox.checked) {
+                tagsToDelete.push(checkbox.closest('.tagContainer'));
+            }
+        });
+
+        tagsToDelete.forEach(function(tagContainer) {
+            tagContainer.parentElement.remove();
+        });
+
+        var remainingTags = Array.from(tagTable.getElementsByClassName('tag'));
+        var tagListTagCount = 1;
+
+        var currentRow;
+        remainingTags.forEach(function(tagElement, index) {
+            if (index % 6 === 0) {
+                currentRow = tagTable.rows[Math.floor(index / 6) + 2];
+            }
+            var tagCell = currentRow.cells[index % 6];
+            var tagContainer = tagCell.getElementsByClassName('tagContainer')[0];
+            tagContainer.querySelector('.tag').id = `tagList-tag${tagListTagCount}`;
+            tagListTagCount++;
         });
     }
 
