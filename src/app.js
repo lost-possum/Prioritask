@@ -2,6 +2,15 @@ document.addEventListener('DOMContentLoaded', function() {
     var taskCount = 0;
     var currentYear = new Date().getFullYear();
 
+    function removePlaceholderIfTaskExists() {
+        var placeholderExists = document.querySelector('#taskColumn #taskColumnPlaceholder') !== null;
+        var taskCellExists = document.querySelector('#taskColumn .taskCell') !== null;
+
+        if ((placeholderExists && taskCellExists)) {
+        document.getElementById('taskColumnPlaceholder').remove();
+        }
+    }
+
     function populateYearDropdown() {
         const yearDropdown = document.getElementById('yearDropdown');
         const options = yearDropdown.getElementsByTagName('option');
@@ -26,6 +35,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     populateYearDropdown();
 
+    /*
+    function deleteTask() {
+        document.getElementsByClassName('taskCheckBoxInput');
+    }
+    */
+
     function loadTasksFromAppData() {
         var savedTasks = getAppData('savedTasks');
         if (savedTasks) {
@@ -35,6 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 createTaskFromData(taskData);
             }
         }
+        removePlaceholderIfTaskExists();
     }
 
     function loadUserTagsFromAppData() {
@@ -171,6 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var taskBottomRowDiv = document.createElement('div');
         var taskInfoBarDiv = document.createElement('div');
         var taskCheckBoxDiv = document.createElement('div');
+        var taskCheckBoxInput = document.createElement('input');
 
         var selectedMonth = document.getElementById('monthDropdown').value;
         var selectedDay = document.getElementById('dayDropdown').value;
@@ -183,11 +200,6 @@ document.addEventListener('DOMContentLoaded', function() {
         var taskColumnPlaceholder = document.getElementById('taskColumnPlaceholder');
         var taskTimeSkipCheckbox = document.getElementById('taskTimeSkipCheckbox');
 
-        if (!taskTimeSkipCheckbox) {
-            console.error('taskTimeSkipCheckBox element not found.');
-            return;
-        }
-
         taskCellDiv.className = 'taskCell';
         taskTopRowDiv.className = 'taskTopRow';
         taskNumberBoxDiv.className = 'taskNumberBox';
@@ -198,6 +210,7 @@ document.addEventListener('DOMContentLoaded', function() {
         taskBottomRowDiv.className = 'taskBottomRow';
         taskInfoBarDiv.className = 'taskInfoBar';
         taskCheckBoxDiv.className = 'taskCheckBox';
+        taskCheckBoxInput.className = 'taskCheckBoxInput';
 
         taskCellDiv.id = `taskCell-task${taskCount}`;
         taskTopRowDiv.id = `taskTopRow-task${taskCount}`;
@@ -209,6 +222,9 @@ document.addEventListener('DOMContentLoaded', function() {
         taskBottomRowDiv.id = `taskBottomRow-task${taskCount}`;
         taskInfoBarDiv.id = `taskInfoBar-task${taskCount}`;
         taskCheckBoxDiv.id = `taskCheckBoxDiv-task${taskCount}`;
+        taskCheckBoxInput.id = `taskCheckBoxInput-task${taskCount}`;
+
+        taskCheckBoxInput.type = 'checkbox';
 
         if ((selectedMonth === '' || selectedDay === '' || selectedYear === '' || selectedHour === '' || selectedMinute === '' || selectedAMPM === '') && (!taskTimeSkipCheckbox.checked)) {
             window.alert('Please complete time and date or select "skip"');
@@ -301,12 +317,13 @@ document.addEventListener('DOMContentLoaded', function() {
             input.style.overflow = '';
         });
 
-        saveTasksToAppData(); // Save tasks to app data after creating a new task
+        removePlaceholderIfTaskExists();
+        saveTasksToAppData();
     }
 
     function createTaskFromData(taskData) {
         taskCount++;
-
+    
         var taskCellDiv = document.createElement('div');
         var taskTopRowDiv = document.createElement('div');
         var taskNumberBoxDiv = document.createElement('div');
@@ -317,7 +334,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var taskBottomRowDiv = document.createElement('div');
         var taskInfoBarDiv = document.createElement('div');
         var taskCheckBoxDiv = document.createElement('div');
-
+    
         taskCellDiv.className = 'taskCell';
         taskTopRowDiv.className = 'taskTopRow';
         taskNumberBoxDiv.className = 'taskNumberBox';
@@ -328,7 +345,7 @@ document.addEventListener('DOMContentLoaded', function() {
         taskBottomRowDiv.className = 'taskBottomRow';
         taskInfoBarDiv.className = 'taskInfoBar';
         taskCheckBoxDiv.className = 'taskCheckBox';
-
+    
         taskCellDiv.id = `taskCell-task${taskCount}`;
         taskTopRowDiv.id = `taskTopRow-task${taskCount}`;
         taskNumberBoxDiv.id = `taskNumberBox-task${taskCount}`;
@@ -339,30 +356,38 @@ document.addEventListener('DOMContentLoaded', function() {
         taskBottomRowDiv.id = `taskBottomRow-task${taskCount}`;
         taskInfoBarDiv.id = `taskInfoBar-task${taskCount}`;
         taskCheckBoxDiv.id = `taskCheckBoxDiv-task${taskCount}`;
-
+    
         var taskTopRowData = taskData[`taskTopRow-task${taskCount}`];
-        taskNumberBoxDiv.textContent = taskTopRowData[`taskNumberBox-task${taskCount}`].text;
-        taskTopRightBarDiv.textContent = taskTopRowData[`taskTopRightBar-task${taskCount}`].text;
-
-        taskMainDiv.textContent = taskData[`taskMain-task${taskCount}`].text;
-
+        if (taskTopRowData) {
+            taskNumberBoxDiv.textContent = taskTopRowData[`taskNumberBox-task${taskCount}`]?.text || '';
+            taskTopRightBarDiv.textContent = taskTopRowData[`taskTopRightBar-task${taskCount}`]?.text || '';
+        }
+    
+        var taskMainData = taskData[`taskMain-task${taskCount}`];
+        if (taskMainData) {
+            taskMainDiv.textContent = taskMainData.text || '';
+        }
+    
         var taskTagRowData = taskData[`taskTagRow-task${taskCount}`];
-        for (var tagId in taskTagRowData) {
-            if (tagId !== `taskTagRowBufferBox-task${taskCount}`) {
-                var tagElement = document.createElement('span');
-                tagElement.className = 'tag';
-                tagElement.id = tagId;
-                tagElement.textContent = taskTagRowData[tagId];
-                taskTagRowDiv.appendChild(tagElement);
+        if (taskTagRowData) {
+            for (var tagId in taskTagRowData) {
+                if (tagId !== `taskTagRowBufferBox-task${taskCount}`) {
+                    var tagElement = document.createElement('span');
+                    tagElement.className = 'tag';
+                    tagElement.id = tagId;
+                    tagElement.textContent = taskTagRowData[tagId];
+                    taskTagRowDiv.appendChild(tagElement);
+                }
             }
         }
-
-        if (taskData[`taskBottomRow-task${taskCount}`][`taskInfoBar-task${taskCount}`]) {
-            taskInfoBarDiv.textContent = taskData[`taskBottomRow-task${taskCount}`][`taskInfoBar-task${taskCount}`].text;
+    
+        var taskBottomRowData = taskData[`taskBottomRow-task${taskCount}`];
+        if (taskBottomRowData) {
+            taskInfoBarDiv.textContent = taskBottomRowData[`taskInfoBar-task${taskCount}`]?.text || '';
         }
-
+    
         taskTagRowDiv.appendChild(taskTagRowBufferBoxDiv);
-
+    
         taskTopRowDiv.appendChild(taskNumberBoxDiv);
         taskTopRowDiv.appendChild(taskTopRightBarDiv);
         taskBottomRowDiv.appendChild(taskCheckBoxDiv);
@@ -371,9 +396,10 @@ document.addEventListener('DOMContentLoaded', function() {
         taskCellDiv.appendChild(taskMainDiv);
         taskCellDiv.appendChild(taskTagRowDiv);
         taskCellDiv.appendChild(taskBottomRowDiv);
-
+    
         document.getElementById('taskColumn').appendChild(taskCellDiv);
-    }
+        removePlaceholderIfTaskExists();
+    }  
 
     function createTagTable(tagsArray) {
         var tagListInnerModalContent = document.getElementById('tagListInnerModalContent');
@@ -674,15 +700,23 @@ document.addEventListener('DOMContentLoaded', function() {
         downloadAnchorNode.remove();
     }
 
-    function importAppData(event) {
-        var file = event.target.files[0];
+    function importAppData(e) {
+        var file = e.target.files[0];
+        var fileName = file.name;
+        var fileExtension = fileName.split('.').pop().toLowerCase();
+
+        if (fileExtension !== 'json') {
+            alert('Invalid file format. Please upload a JSON file.');
+            return;
+        }
+        
         if (!file) {
             return;
         }
         
         var reader = new FileReader();
-        reader.onload = function(event) {
-            var data = JSON.parse(event.target.result);
+        reader.onload = function(e) {
+            var data = JSON.parse(e.target.result);
             
             if (data.tasks) {
                 setAppData('savedTasks', JSON.stringify(data.tasks), 30);
@@ -691,38 +725,40 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.tags) {
                 setAppData('userTags', JSON.stringify(data.tags), 30);
             }
-
+    
+            // Remove existing tasks before loading new ones
+            var taskColumn = document.getElementById('taskColumn');
+            while (taskColumn.firstChild) {
+                taskColumn.removeChild(taskColumn.firstChild);
+            }
+    
             loadTasksFromAppData();
             loadUserTagsFromAppData();
         };
         reader.readAsText(file);
+        removePlaceholderIfTaskExists();
     }
-
+    
     var exportButton = document.getElementById('appDataExportButton');
     var importButton = document.getElementById('appDataImportButton');
     var importInput = document.createElement('input');
     importInput.type = 'file';
     importInput.style.display = 'none';
     importInput.addEventListener('change', importAppData);
-
-    exportButton.addEventListener('click', function() {
+    
+    exportButton.addEventListener('click', function(e) {
+        e.preventDefault();
         exportAppData();
     });
-
+    
     importButton.addEventListener('click', function(e) {
         e.preventDefault();
         var placeholder = document.getElementById('taskColumnPlaceholder');
         if (placeholder) {
             placeholder.remove();
         }
-        var taskColumn = document.getElementById('taskColumn');
-        var existingTaskCell = taskColumn.getElementsByClassName('taskCell');
-        if (existingTaskCell) {
-            window.alert('Deleting existing task cells!');
-            existingTaskCell.remove();
-        }
         importInput.click();
     });
-
+    
     document.body.appendChild(importInput);
 });
