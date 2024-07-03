@@ -360,14 +360,14 @@
 
 #rightPageBufferSpace {
     position: relative;
-    height: 5vh;
+    height: 7vh;
     width: 100%;
 }
 
 #userTaskField {
     position: relative;
     display: flex;
-    height: 78vh;
+    height: 82vh;
     width: 100%;
     border-top: 1px solid black;
 }
@@ -380,7 +380,7 @@
     height: 100%;
     border-left: 1px solid black;
     border-right: 1px solid black;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 #taskColumnPlaceholder {
@@ -395,7 +395,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    height: 35%;
+    height: 25vh;
     width: 100%;
     justify-content: flex-start;
     border-top: 1px solid black;

@@ -26,6 +26,110 @@ document.addEventListener('DOMContentLoaded', function() {
 
     populateYearDropdown();
 
+    function loadTasksFromAppData() {
+        var savedTasks = getAppData('savedTasks');
+        if (savedTasks) {
+            savedTasks = JSON.parse(savedTasks).tasks;
+            for (var taskId in savedTasks) {
+                var taskData = savedTasks[taskId];
+                createTaskFromData(taskData);
+            }
+        }
+    }
+
+    function loadUserTagsFromAppData() {
+        var userTags = getAppData('userTags');
+        if (userTags) {
+            userTags = JSON.parse(userTags).tags;
+            createTagTableFromData(userTags);
+        }
+    }
+
+    function saveTasksToAppData() {
+        var tasks = {};
+        var taskCells = document.querySelectorAll('.taskCell');
+
+        taskCells.forEach(function(taskCell) {
+            var taskCount = taskCell.id.split('-task')[1];
+            var taskTopRow = taskCell.querySelector('.taskTopRow');
+            var taskMain = taskCell.querySelector('.taskMain');
+            var taskTagRow = taskCell.querySelector('.taskTagRow');
+            var taskBottomRow = taskCell.querySelector('.taskBottomRow');
+
+            var taskJSON = {
+                [`taskTopRow-task${taskCount}`]: {
+                    [`taskNumberBox-task${taskCount}`]: {
+                        "text": taskTopRow.querySelector('.taskNumberBox').textContent
+                    },
+                    [`taskTopRightBar-task${taskCount}`]: {
+                        "text": taskTopRow.querySelector('.taskTopRightBar').textContent
+                    }
+                },
+                [`taskMain-task${taskCount}`]: {
+                    "text": taskMain.textContent
+                },
+                [`taskTagRow-task${taskCount}`]: {
+                    "taskTagRowBufferBox-task${taskCount}": ""
+                },
+                [`taskBottomRow-task${taskCount}`]: {
+                    [`taskCheckBoxDiv-task${taskCount}`]: "",
+                    [`taskInfoBar-task${taskCount}`]: {
+                        "text": taskBottomRow.querySelector('.taskInfoBar').textContent
+                    }
+                }
+            };
+
+            var tags = taskTagRow.querySelectorAll('.tag');
+            tags.forEach(function(tag, index) {
+                taskJSON[`taskTagRow-task${taskCount}`][`taskCell${taskCount}-tag${index + 1}`] = tag.textContent;
+            });
+
+            tasks[`taskCell-task${taskCount}`] = taskJSON;
+        });
+
+        setAppData('savedTasks', JSON.stringify({ tasks: tasks }), 30);
+    }
+
+    function saveUserTagsToAppData() {
+        var tags = {};
+        var tagElements = document.querySelectorAll('#tagTable .tag');
+
+        tagElements.forEach(function(tagElement) {
+            var tagId = tagElement.id;
+            var tagText = tagElement.textContent;
+            tags[tagId] = tagText;
+        });
+
+        setAppData('userTags', JSON.stringify({ tags: tags }), 30);
+    }
+
+    function setAppData(name, value, days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + ";path=/";
+    }
+
+    function getAppData(name) {
+        var nameEQ = name + "=";
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i];
+            while (cookie.charAt(0) === ' ') {
+                cookie = cookie.substring(1, cookie.length);
+            }
+            if (cookie.indexOf(nameEQ) === 0) {
+                return cookie.substring(nameEQ.length, cookie.length);
+            }
+        }
+        return null;
+    }
+
+    loadTasksFromAppData();
+    loadUserTagsFromAppData();
 
     var taskForm = document.getElementById('newTaskForm');
     taskForm.addEventListener('submit', function(e) {
@@ -160,7 +264,7 @@ document.addEventListener('DOMContentLoaded', function() {
             tagElement.id = `taskCell${taskCount}-tag${index + 1}`;
             tagElement.textContent = '#' + tag;
             taskTagRowDiv.appendChild(tagElement);
-        });             
+        });
 
         createTagTable(processedTags);
 
@@ -171,7 +275,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (taskColumnPlaceholder !== null) {
             taskColumnPlaceholder.remove();
         }
-    
+
         taskTopRowDiv.appendChild(taskNumberBoxDiv);
         taskTopRowDiv.appendChild(taskTopRightBarDiv);
         taskBottomRowDiv.appendChild(taskCheckBoxDiv);
@@ -180,9 +284,13 @@ document.addEventListener('DOMContentLoaded', function() {
         taskCellDiv.appendChild(taskMainDiv);
         taskCellDiv.appendChild(taskTagRowDiv);
         taskCellDiv.appendChild(taskBottomRowDiv);
-    
+
         document.getElementById('taskColumn').appendChild(taskCellDiv);
 
+        var placeholder = document.getElementById('taskColumnPlaceholder');
+        if (placeholder) {
+            
+        }
         window.alert(`Task ${taskCount} successfully added to your list!`);
         localStorage.removeItem('taskDescriptionEntry');
         localStorage.removeItem('taskTagEntry');
@@ -192,6 +300,79 @@ document.addEventListener('DOMContentLoaded', function() {
             input.style.overflow = 'hidden';
             input.style.overflow = '';
         });
+
+        saveTasksToAppData(); // Save tasks to app data after creating a new task
+    }
+
+    function createTaskFromData(taskData) {
+        taskCount++;
+
+        var taskCellDiv = document.createElement('div');
+        var taskTopRowDiv = document.createElement('div');
+        var taskNumberBoxDiv = document.createElement('div');
+        var taskTopRightBarDiv = document.createElement('div');
+        var taskMainDiv = document.createElement('div');
+        var taskTagRowDiv = document.createElement('div');
+        var taskTagRowBufferBoxDiv = document.createElement('div');
+        var taskBottomRowDiv = document.createElement('div');
+        var taskInfoBarDiv = document.createElement('div');
+        var taskCheckBoxDiv = document.createElement('div');
+
+        taskCellDiv.className = 'taskCell';
+        taskTopRowDiv.className = 'taskTopRow';
+        taskNumberBoxDiv.className = 'taskNumberBox';
+        taskTopRightBarDiv.className = 'taskTopRightBar';
+        taskMainDiv.className = 'taskMain';
+        taskTagRowDiv.className = 'taskTagRow';
+        taskTagRowBufferBoxDiv.className = 'taskTagRowBufferBox';
+        taskBottomRowDiv.className = 'taskBottomRow';
+        taskInfoBarDiv.className = 'taskInfoBar';
+        taskCheckBoxDiv.className = 'taskCheckBox';
+
+        taskCellDiv.id = `taskCell-task${taskCount}`;
+        taskTopRowDiv.id = `taskTopRow-task${taskCount}`;
+        taskNumberBoxDiv.id = `taskNumberBox-task${taskCount}`;
+        taskTopRightBarDiv.id = `taskTopRightBar-task${taskCount}`;
+        taskMainDiv.id = `taskMain-task${taskCount}`;
+        taskTagRowDiv.id = `taskTagRow-task${taskCount}`;
+        taskTagRowBufferBoxDiv.id = `taskTagRowBufferBox-task${taskCount}`;
+        taskBottomRowDiv.id = `taskBottomRow-task${taskCount}`;
+        taskInfoBarDiv.id = `taskInfoBar-task${taskCount}`;
+        taskCheckBoxDiv.id = `taskCheckBoxDiv-task${taskCount}`;
+
+        var taskTopRowData = taskData[`taskTopRow-task${taskCount}`];
+        taskNumberBoxDiv.textContent = taskTopRowData[`taskNumberBox-task${taskCount}`].text;
+        taskTopRightBarDiv.textContent = taskTopRowData[`taskTopRightBar-task${taskCount}`].text;
+
+        taskMainDiv.textContent = taskData[`taskMain-task${taskCount}`].text;
+
+        var taskTagRowData = taskData[`taskTagRow-task${taskCount}`];
+        for (var tagId in taskTagRowData) {
+            if (tagId !== `taskTagRowBufferBox-task${taskCount}`) {
+                var tagElement = document.createElement('span');
+                tagElement.className = 'tag';
+                tagElement.id = tagId;
+                tagElement.textContent = taskTagRowData[tagId];
+                taskTagRowDiv.appendChild(tagElement);
+            }
+        }
+
+        if (taskData[`taskBottomRow-task${taskCount}`][`taskInfoBar-task${taskCount}`]) {
+            taskInfoBarDiv.textContent = taskData[`taskBottomRow-task${taskCount}`][`taskInfoBar-task${taskCount}`].text;
+        }
+
+        taskTagRowDiv.appendChild(taskTagRowBufferBoxDiv);
+
+        taskTopRowDiv.appendChild(taskNumberBoxDiv);
+        taskTopRowDiv.appendChild(taskTopRightBarDiv);
+        taskBottomRowDiv.appendChild(taskCheckBoxDiv);
+        taskBottomRowDiv.appendChild(taskInfoBarDiv);
+        taskCellDiv.appendChild(taskTopRowDiv);
+        taskCellDiv.appendChild(taskMainDiv);
+        taskCellDiv.appendChild(taskTagRowDiv);
+        taskCellDiv.appendChild(taskBottomRowDiv);
+
+        document.getElementById('taskColumn').appendChild(taskCellDiv);
     }
 
     function createTagTable(tagsArray) {
@@ -201,8 +382,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (defaultTagTable) {
             defaultTagTable.remove();
-        };
- 
+        }
+
         if (!tagTable) {
             tagTable = document.createElement('table');
             tagTable.id = 'tagTable';
@@ -237,7 +418,7 @@ document.addEventListener('DOMContentLoaded', function() {
             buttonCell.appendChild(tagCellDeleteButton);
             buttonRow.appendChild(buttonCell);
             tagListInnerModalContent.appendChild(tagTable);
-        };
+        }
 
         var existingTags = new Set();
         Array.from(tagTable.getElementsByClassName('tag')).forEach(tagElement => {
@@ -249,10 +430,6 @@ document.addEventListener('DOMContentLoaded', function() {
         var tagListTagCount = 1;
 
         tagsArray.forEach(function(tag) {
-            if (existingTags.size >= 42) {
-                return;
-            }
-
             tag = tag.trim();
             if (existingTags.has('#' + tag)) {
                 return;
@@ -284,7 +461,95 @@ document.addEventListener('DOMContentLoaded', function() {
             tagCountInRow++;
             tagListTagCount++;
         });
-    };
+    }
+
+    function createTagTableFromData(tags) {
+        var tagListInnerModalContent = document.getElementById('tagListInnerModalContent');
+        var tagTable = document.getElementById('tagTable');
+        var defaultTagTable = document.getElementById('defaultTagTable');
+
+        if (defaultTagTable) {
+            defaultTagTable.remove();
+        }
+
+        if (!tagTable) {
+            tagTable = document.createElement('table');
+            tagTable.id = 'tagTable';
+
+            var tagHeaderRow = tagTable.insertRow();
+            var tagHeaderCell = document.createElement('th');
+            tagHeaderCell.id = 'tagHeaderCell';
+            tagHeaderCell.textContent = 'Tags';
+            tagHeaderCell.colSpan = 6;
+            tagHeaderRow.appendChild(tagHeaderCell);
+
+            var buttonRow = tagTable.insertRow();
+            var buttonCell = document.createElement('td');
+            buttonCell.colSpan = 6;
+            buttonCell.style.textAlign = 'center';
+
+            var tagCellSortButton = document.createElement('button');
+            tagCellSortButton.textContent = 'Sort (A-Z)';
+            tagCellSortButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                sortTagsAZ();
+            });
+
+            var tagCellDeleteButton = document.createElement('button');
+            tagCellDeleteButton.textContent = 'Delete Selected';
+            tagCellDeleteButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                deleteTags();
+            });
+
+            buttonCell.appendChild(tagCellSortButton);
+            buttonCell.appendChild(tagCellDeleteButton);
+            buttonRow.appendChild(buttonCell);
+            tagListInnerModalContent.appendChild(tagTable);
+        }
+
+        var existingTags = new Set();
+        Array.from(tagTable.getElementsByClassName('tag')).forEach(tagElement => {
+            existingTags.add(tagElement.textContent.trim());
+        });
+
+        var currentRow = tagTable.insertRow();
+        var tagCountInRow = 0;
+        var tagListTagCount = 1;
+
+        for (var tagId in tags) {
+            var tag = tags[tagId].trim();
+            if (existingTags.has('#' + tag)) {
+                continue;
+            }
+
+            if (tagCountInRow >= 6) {
+                currentRow = tagTable.insertRow();
+                tagCountInRow = 0;
+            }
+
+            var tagCell = currentRow.insertCell();
+            var tagContainer = document.createElement('div');
+            tagContainer.className = 'tagContainer';
+
+            var tagElement = document.createElement('span');
+            tagElement.className = 'tag';
+            tagElement.id = tagId;
+            tagElement.textContent = '#' + tag;
+
+            var checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.className = 'tagCheckbox';
+
+            tagContainer.appendChild(tagElement);
+            tagContainer.appendChild(checkbox);
+            tagCell.appendChild(tagContainer);
+
+            existingTags.add('#' + tag);
+            tagCountInRow++;
+            tagListTagCount++;
+        }
+    }
 
     function sortTagsAZ() {
         var tagTable = document.getElementById('tagTable');
@@ -387,4 +652,77 @@ document.addEventListener('DOMContentLoaded', function() {
             tagListModal.style.display = "none";
         }
     }
+
+    function exportAppData() {
+        saveTasksToAppData();
+        saveUserTagsToAppData();
+
+        var tasks = getAppData('savedTasks');
+        var tags = getAppData('userTags');
+        
+        var data = {
+            tasks: tasks ? JSON.parse(tasks) : [],
+            tags: tags ? JSON.parse(tags) : []
+        };
+        
+        var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
+        var downloadAnchorNode = document.createElement('a');
+        downloadAnchorNode.setAttribute("href", dataStr);
+        downloadAnchorNode.setAttribute("download", "prioritask-data.json");
+        document.body.appendChild(downloadAnchorNode);
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+    }
+
+    function importAppData(event) {
+        var file = event.target.files[0];
+        if (!file) {
+            return;
+        }
+        
+        var reader = new FileReader();
+        reader.onload = function(event) {
+            var data = JSON.parse(event.target.result);
+            
+            if (data.tasks) {
+                setAppData('savedTasks', JSON.stringify(data.tasks), 30);
+            }
+            
+            if (data.tags) {
+                setAppData('userTags', JSON.stringify(data.tags), 30);
+            }
+
+            loadTasksFromAppData();
+            loadUserTagsFromAppData();
+        };
+        reader.readAsText(file);
+    }
+
+    var exportButton = document.getElementById('appDataExportButton');
+    var importButton = document.getElementById('appDataImportButton');
+    var importInput = document.createElement('input');
+    importInput.type = 'file';
+    importInput.style.display = 'none';
+    importInput.addEventListener('change', importAppData);
+
+    exportButton.addEventListener('click', function() {
+        exportAppData();
+    });
+
+    importButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        var placeholder = document.getElementById('taskColumnPlaceholder');
+        if (placeholder) {
+            placeholder.remove();
+        }
+        var taskColumn = document.getElementById('taskColumn');
+        var existingTaskCell = taskColumn.getElementsByClassName('taskCell');
+        if (existingTaskCell) {
+            window.alert('Deleting existing task cells!');
+            existingTaskCell.remove();
+        }
+        importInput.click();
+    });
+
+    document.body.appendChild(importInput);
 });
