@@ -35,11 +35,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     populateYearDropdown();
 
-    /*
-    function deleteTask() {
-        document.getElementsByClassName('taskCheckBoxInput');
-    }
-    */
+    var deleteTaskButton = document.getElementById('deleteTaskButton');
+    deleteTaskButton.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        var checkedTaskCheckboxes = document.querySelectorAll('#taskColumn .taskCell .taskCheckBox input[type="checkbox"]:checked');
+
+        checkedTaskCheckboxes.forEach(function(checkbox) {
+            var taskCell = checkbox.closest('.taskCell');
+            if (taskCell) {
+                taskCell.remove();
+            }
+        });
+
+        saveTasksToAppData();
+    })
 
     function loadTasksFromAppData() {
         var savedTasks = getAppData('savedTasks');
