@@ -1,3 +1,15 @@
+// Prioritask - Version 0.1 (alpha)
+
+// Viihna Leraine - viihna@voidfucker.com // viihna.78 (Signal)
+
+// License - GNU GPLv3 
+
+// This code comes with ABSOLUTELY NO WARRANTY. I cannot even BEGIN to guarantee it will perform its intended functionality in its current form
+
+// Welcome to my first full-fledged project. I know it is an absolute mess right now, but I'm working on it as best as I can. I'm fully aware it desperately needs a solid refactoring, and I'm going to work through that process piece by piece. I preface this work by stating I am a beginner on the road to becoming a programmer. Many parts of this code, such as cookie generation, JSON import, and dynamic DOM manipulation are the first time I have worked with such features. 
+
+// You will likely experience bugs when working with this application, some of which I am fully aware of but have not yet had time to fix. That said, feel free to reach out to me with bug reports at the email address or Signal username I have listed above and I will respond to them when time allows.
+
 document.addEventListener('DOMContentLoaded', function() {
     var taskCount = 0;
     var currentYear = new Date().getFullYear();
@@ -95,7 +107,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     "text": taskMain.textContent
                 },
                 [`taskTagRow-task${taskCount}`]: {
-                    "taskTagRowBufferBox-task${taskCount}": ""
                 },
                 [`taskBottomRow-task${taskCount}`]: {
                     [`taskCheckBoxDiv-task${taskCount}`]: "",
@@ -193,7 +204,6 @@ document.addEventListener('DOMContentLoaded', function() {
         var taskTopRightBarDiv = document.createElement('div');
         var taskMainDiv = document.createElement('div');
         var taskTagRowDiv = document.createElement('div');
-        var taskTagRowBufferBoxDiv = document.createElement('div');
         var taskBottomRowDiv = document.createElement('div');
         var taskInfoBarDiv = document.createElement('div');
         var taskCheckBoxDiv = document.createElement('div');
@@ -216,7 +226,6 @@ document.addEventListener('DOMContentLoaded', function() {
         taskTopRightBarDiv.className = 'taskTopRightBar';
         taskMainDiv.className = 'taskMain';
         taskTagRowDiv.className = 'taskTagRow';
-        taskTagRowBufferBoxDiv.className = 'taskTagRowBufferBox';
         taskBottomRowDiv.className = 'taskBottomRow';
         taskInfoBarDiv.className = 'taskInfoBar';
         taskCheckBoxDiv.className = 'taskCheckBox';
@@ -228,7 +237,6 @@ document.addEventListener('DOMContentLoaded', function() {
         taskTopRightBarDiv.id = `taskTopRightBar-task${taskCount}`;
         taskMainDiv.id = `taskMain-task${taskCount}`;
         taskTagRowDiv.id = `taskTagRow-task${taskCount}`;
-        taskTagRowBufferBoxDiv.id = `taskTagRowBufferBox-task${taskCount}`;
         taskBottomRowDiv.id = `taskBottomRow-task${taskCount}`;
         taskInfoBarDiv.id = `taskInfoBar-task${taskCount}`;
         taskCheckBoxDiv.id = `taskCheckBoxDiv-task${taskCount}`;
@@ -282,8 +290,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        taskTagRowDiv.appendChild(taskTagRowBufferBoxDiv);
-
         processedTags.forEach(function(tag, index) {
             var tagElement = document.createElement('span');
             tagElement.className = 'tag';
@@ -302,6 +308,7 @@ document.addEventListener('DOMContentLoaded', function() {
             taskColumnPlaceholder.remove();
         }
 
+        taskCheckBoxDiv.appendChild(taskCheckBoxInput);
         taskTopRowDiv.appendChild(taskNumberBoxDiv);
         taskTopRowDiv.appendChild(taskTopRightBarDiv);
         taskBottomRowDiv.appendChild(taskCheckBoxDiv);
@@ -340,10 +347,10 @@ document.addEventListener('DOMContentLoaded', function() {
         var taskTopRightBarDiv = document.createElement('div');
         var taskMainDiv = document.createElement('div');
         var taskTagRowDiv = document.createElement('div');
-        var taskTagRowBufferBoxDiv = document.createElement('div');
         var taskBottomRowDiv = document.createElement('div');
         var taskInfoBarDiv = document.createElement('div');
         var taskCheckBoxDiv = document.createElement('div');
+        var taskCheckBoxInput = document.createElement('input');
     
         taskCellDiv.className = 'taskCell';
         taskTopRowDiv.className = 'taskTopRow';
@@ -351,7 +358,6 @@ document.addEventListener('DOMContentLoaded', function() {
         taskTopRightBarDiv.className = 'taskTopRightBar';
         taskMainDiv.className = 'taskMain';
         taskTagRowDiv.className = 'taskTagRow';
-        taskTagRowBufferBoxDiv.className = 'taskTagRowBufferBox';
         taskBottomRowDiv.className = 'taskBottomRow';
         taskInfoBarDiv.className = 'taskInfoBar';
         taskCheckBoxDiv.className = 'taskCheckBox';
@@ -362,7 +368,6 @@ document.addEventListener('DOMContentLoaded', function() {
         taskTopRightBarDiv.id = `taskTopRightBar-task${taskCount}`;
         taskMainDiv.id = `taskMain-task${taskCount}`;
         taskTagRowDiv.id = `taskTagRow-task${taskCount}`;
-        taskTagRowBufferBoxDiv.id = `taskTagRowBufferBox-task${taskCount}`;
         taskBottomRowDiv.id = `taskBottomRow-task${taskCount}`;
         taskInfoBarDiv.id = `taskInfoBar-task${taskCount}`;
         taskCheckBoxDiv.id = `taskCheckBoxDiv-task${taskCount}`;
@@ -381,7 +386,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var taskTagRowData = taskData[`taskTagRow-task${taskCount}`];
         if (taskTagRowData) {
             for (var tagId in taskTagRowData) {
-                if (tagId !== `taskTagRowBufferBox-task${taskCount}`) {
+                if (tagId !== `taskTagRow-task${taskCount}`) {
                     var tagElement = document.createElement('span');
                     tagElement.className = 'tag';
                     tagElement.id = tagId;
@@ -395,8 +400,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (taskBottomRowData) {
             taskInfoBarDiv.textContent = taskBottomRowData[`taskInfoBar-task${taskCount}`]?.text || '';
         }
-    
-        taskTagRowDiv.appendChild(taskTagRowBufferBoxDiv);
     
         taskTopRowDiv.appendChild(taskNumberBoxDiv);
         taskTopRowDiv.appendChild(taskTopRightBarDiv);
@@ -772,3 +775,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     document.body.appendChild(importInput);
 });
+
+// check status of service worker from service-worker.js
+// if ('serviceWorker' in navigator) {
+   //  navigator.serviceWorker.register('/service-worker.js')
+      //   .then(function(registration) {
+         //    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        // }).catch(function(error) {
+         //    console.log('ServiceWorker registration failed: ', error);
+        // });
+// }

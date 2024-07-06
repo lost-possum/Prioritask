@@ -215,7 +215,7 @@
 }
 
 #taskTagListRow {
-    padding: 10px 5px;
+    padding: 5px;
     font-size: 0.8em;
 }
 
@@ -272,6 +272,10 @@
     font-weight: bold;
 }
 
+.tag:nth-child(1) {
+    margin-left: 1.25vw;
+}
+
 #tagTable {
     width: 100%;
     border-collapse: collapse;
@@ -305,9 +309,8 @@
     width: 40vw;
 }
 
-#taskTagInput {
+#taskTagInputField {
     width: 70%;
-    padding: 0 15px;
 }
 
 #taskTagDescriptionField {
@@ -325,12 +328,11 @@
 }
 
 #leftPageBottomButtonField {
-    position: relative;
+    position: fixed;
     display: flex;
-    margin-top: 2.5vh;
-    margin-left: 1.5vw;
-    height: 7vh;
-    width: calc(100% - 1.5vw);
+    bottom: 0;
+    height: 6vh;
+    width: 51%;
     align-items: center;
     border: 1px dotted black;
 }
@@ -343,7 +345,8 @@
     padding: 0 2.5vw;
     align-items: center;
     justify-content: space-around;
-    border: 1px dotted black;
+    background-color: #b0b0b0;
+    border: 1px solid black;
 }
 
 .bottomRowButton {
@@ -460,7 +463,7 @@
     overflow-x: scroll;
 }
 
-.taskCheckBox, .taskTagRowBufferBox {
+.taskCheckBox {
     position: relative;
     display: flex;
     height: 100%;
@@ -497,7 +500,9 @@
     border: 1px dotted black;
 }
 
-.taskCheckBox {
+.taskCheckBoxInput {
+    height: 100%;
+    width: 100%;
     background-color: rgb(207, 197, 197);
 }
 
