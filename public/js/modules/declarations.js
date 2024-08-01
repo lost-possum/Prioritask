@@ -1,9 +1,27 @@
-// Prioritask - Version 0.0.8 (alpha)
+// Prioritask - Version 0.0.5 (alpha)
 // Viihna Leraine - viihna@ViihnaTech.com // viihna.78 (Signal) // Viihna-Lehraine (Github)
 // License - GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html#license-text)
 
 // BEGIN CODE
 
+
+function declareButtons() {
+    const taskSubmitButton = document.getElementById('taskSubmitButton');
+    const deleteTaskButton = document.getElementBydId('deleteTaskButton');
+    const tagListModalButton = document.getElementById('tagListModalButton');
+    const exportButton = document.getElementById('appDataExportButton');
+    const importButton = document.getElementById('appDataImportButton');
+    const importInput = document.createElement('input');
+
+    return {
+        taskSubmitButton,
+        deleteTaskButton,
+        tagListModalButton,
+        exportButton,
+        importButton,
+        importInput
+    }
+};
 
 
 function taskFormDeclareElements() {
@@ -27,62 +45,70 @@ function taskFormDeclareElements() {
 
 function newTaskDeclareElements() {
     let taskCellDiv = document.createElement('div');
-        let taskTopRowDiv = document.createElement('div');
-        let taskNumberBoxDiv = document.createElement('div');
-        let taskTopRightBarDiv = document.createElement('div');
-        let taskMainDiv = document.createElement('div');
-        let taskTagRowDiv = document.createElement('div');
-        let taskBottomRowDiv = document.createElement('div');
-        let taskInfoBarDiv = document.createElement('div');
-        let taskCheckBoxDiv = document.createElement('div');
-        let taskCheckBoxInput = document.createElement('input');
+    let taskTopRowDiv = document.createElement('div');
+    let taskNumberBoxDiv = document.createElement('div');
+    let taskTopRightBarDiv = document.createElement('div');
+    let taskMainDiv = document.createElement('div');
+    let taskTagRowDiv = document.createElement('div');
+    let taskBottomRowDiv = document.createElement('div');
+    let taskInfoBarDiv = document.createElement('div');
+    let taskCheckBoxDiv = document.createElement('div');
+    let taskCheckBoxInput = document.createElement('input');
+    let selectedMonth = document.getElementById('monthDropdown').value;
+    let selectedDay = document.getElementById('dayDropdown').value;
+    let selectedHour = document.getElementById('hourDropdown').value;
+    let selectedMinute = document.getElementById('minuteDropdown').value;
+    let selectedAMPM = document.getElementById('amPMDropdown').value;
+    let selectedYear = document.getElementById('yearDropdown').value;
+    let selectedPriority = document.getElementById('priorityDropdown').value;
+    let taskColumnPlaceholder = document.getElementById('taskColumnPlaceholder');
+    let taskTimeSkipCheckbox = document.getElementById('taskTimeSkipCheckbox');
 
-        let selectedMonth = document.getElementById('monthDropdown').value;
-        let selectedDay = document.getElementById('dayDropdown').value;
-        let selectedHour = document.getElementById('hourDropdown').value;
-        let selectedMinute = document.getElementById('minuteDropdown').value;
-        let selectedAMPM = document.getElementById('amPMDropdown').value;
-        let selectedYear = document.getElementById('yearDropdown').value;
-        let selectedPriority = document.getElementById('priorityDropdown').value;
+    taskCellDiv.className = 'taskCell';
+    taskTopRowDiv.className = 'taskTopRow';
+    taskNumberBoxDiv.className = 'taskNumberBox';
+    taskTopRightBarDiv.className = 'taskTopRightBar';
+    taskMainDiv.className = 'taskMain';
+    taskTagRowDiv.className = 'taskTagRow';
+    taskBottomRowDiv.className = 'taskBottomRow';
+    taskInfoBarDiv.className = 'taskInfoBar';
+    taskCheckBoxDiv.className = 'taskCheckBox';
+    taskCheckBoxInput.className = 'taskCheckBoxInput';
 
-        let taskColumnPlaceholder = document.getElementById('taskColumnPlaceholder');
-        let taskTimeSkipCheckbox = document.getElementById('taskTimeSkipCheckbox');
+    taskCellDiv.id = `taskCell-task${taskCount}`;
+    taskTopRowDiv.id = `taskTopRow-task${taskCount}`;
+    taskNumberBoxDiv.id = `taskNumberBox-task${taskCount}`;
+    taskTopRightBarDiv.id = `taskTopRightBar-task${taskCount}`;
+    taskMainDiv.id = `taskMain-task${taskCount}`;
+    taskTagRowDiv.id = `taskTagRow-task${taskCount}`;
+    taskBottomRowDiv.id = `taskBottomRow-task${taskCount}`;
+    taskInfoBarDiv.id = `taskInfoBar-task${taskCount}`;
+    taskCheckBoxDiv.id = `taskCheckBoxDiv-task${taskCount}`;
+    taskCheckBoxInput.id = `taskCheckBoxInput-task${taskCount}`;
+    taskCheckBoxInput.type = 'checkbox';
 
-        taskCellDiv.className = 'taskCell';
-        taskTopRowDiv.className = 'taskTopRow';
-        taskNumberBoxDiv.className = 'taskNumberBox';
-        taskTopRightBarDiv.className = 'taskTopRightBar';
-        taskMainDiv.className = 'taskMain';
-        taskTagRowDiv.className = 'taskTagRow';
-        taskBottomRowDiv.className = 'taskBottomRow';
-        taskInfoBarDiv.className = 'taskInfoBar';
-        taskCheckBoxDiv.className = 'taskCheckBox';
-        taskCheckBoxInput.className = 'taskCheckBoxInput';
-
-        taskCellDiv.id = `taskCell-task${taskCount}`;
-        taskTopRowDiv.id = `taskTopRow-task${taskCount}`;
-        taskNumberBoxDiv.id = `taskNumberBox-task${taskCount}`;
-        taskTopRightBarDiv.id = `taskTopRightBar-task${taskCount}`;
-        taskMainDiv.id = `taskMain-task${taskCount}`;
-        taskTagRowDiv.id = `taskTagRow-task${taskCount}`;
-        taskBottomRowDiv.id = `taskBottomRow-task${taskCount}`;
-        taskInfoBarDiv.id = `taskInfoBar-task${taskCount}`;
-        taskCheckBoxDiv.id = `taskCheckBoxDiv-task${taskCount}`;
-        taskCheckBoxInput.id = `taskCheckBoxInput-task${taskCount}`;
-
-        taskCheckBoxInput.type = 'checkbox';
-
-        return {
-            selectedMonth,
-            selectedDay,
-            selectedHour,
-            selectedMinute,
-            selectedAMPM,
-            selectedYear,
-            selectedPriority,
-            taskColumnPlaceholder,
-            taskTimeSkipCheckbox
-        }
+    return {
+        taskCount,
+        taskCellDiv,
+        taskTopRowDiv,
+        taskNumberBoxDiv,
+        taskTopRightBarDiv,
+        taskMainDiv,
+        taskTagRowDiv,
+        taskBottomRowDiv,
+        taskInfoBarDiv,
+        taskCheckBoxDiv,
+        taskCheckBoxInput,
+        selectedMonth,
+        selectedDay,
+        selectedHour,
+        selectedMinute,
+        selectedAMPM,
+        selectedYear,
+        selectedPriority,
+        taskColumnPlaceholder,
+        taskTimeSkipCheckbox,
+    }
 };
 
 
@@ -105,4 +131,4 @@ function declareDropdownContent() {
 };
 
 
-export { taskFormDeclareElements, newTaskDeclareElements, declareDropdownContent };
+export { declareButtons, taskFormDeclareElements, newTaskDeclareElements, declareDropdownContent };
