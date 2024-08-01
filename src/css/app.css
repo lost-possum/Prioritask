@@ -1,0 +1,517 @@
+#leftPage {
+    left: 0;
+}
+
+#rightPage {
+    right: 0;
+}
+
+.page {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 50vw;
+    border-left: 1px solid black;
+    overflow-y: hidden;
+}
+
+.pageTitleField {
+    position: relative;
+    display: flex;
+    top: 0;
+    min-height: fit-content;
+    height: 7vh;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.65em;
+    font-weight: bold;
+    border-bottom: 1px solid black;
+}
+
+#leftPageTitleField {
+    left: 0;
+}
+
+#taskMainField {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 87vh;
+    width: 100%;
+    align-items: center;
+}
+
+#taskDescriptionField, #taskTagEntryField {
+    position: relative;
+    flex-direction: column;
+    display: flex;
+    margin-top: 4vh;
+    height: 12vh;
+    width: 70%;
+    margin-left: 0.75vw;
+}
+
+#taskDescriptionLabelField, #taskTimeTitle {
+    position: relative;
+    display: flex;
+    height: 5vh;
+    width: fit-content;
+    align-items: center;
+    padding: 7px 5px;
+    margin-left: 0.75vw;
+    border: 1px dotted black;
+}
+
+#taskDescriptionEntry {
+    height: 100%;
+    width: 40vw;
+    overflow: hidden;
+    word-wrap: break-word;
+    resize: none;
+    padding: 0 10px;
+    white-space: pre-wrap;
+    margin-left: 0.75vw;
+}
+
+#taskTimeField {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-top: 2vh;
+    height: 15vh;
+    width: 50vw;
+    margin-left: 0.75vw;
+}
+
+#taskTimeDropdownField {
+    position: relative;
+    display: flex;
+    height: fit-content;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 7px 0 6px 3px;
+    margin-left: 0.75vw;
+    border: 1px dotted black;
+}
+
+.taskDropdownColumn {
+    display: flex;
+    flex-direction: column;
+    margin: auto auto auto 0;
+}
+
+.taskDropdownLabels, .taskTimeCheckboxTitle {
+    font-size: 0.85em;
+    width: fit-content;
+    padding: 10px 5px;
+}
+
+#taskPriorityField {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-top: 3vh;
+    height: 18vh;
+    width: 49.25vw;
+    margin-left: 1.5vw;
+    border: 1px dotted black;
+}
+
+#taskPriorityTitle {
+    position: relative;
+    display: flex;
+    height: fit-content;
+    width: fit-content;
+    align-items: center;
+    padding: 7px 5px;
+    border: 1px dotted black;
+}
+
+#taskPriorityMainField {
+    position: relative;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    border: 1px dotted black;
+}
+
+#taskPrioritySelectionField {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 2vh);
+    width: 35%;
+    margin-top: 2vh;
+    border: 1px dotted black;
+}
+
+#taskPriorityLabelField {
+    position: relative;
+    display: flex;
+    height: fit-content;
+    font-size: 0.85em;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    justify-content: center;
+    border: 1px dotted black;
+}
+
+#taskPriorityDropdownField {
+    position: relative;
+    display: flex;
+    height: fit-content;
+    justify-content: center;
+    margin-top: 1.5vh;
+}
+
+#taskPriorityDescriptionBox {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 2vh);
+    width: fit-content;
+    margin-top: 2vh;
+    border: 1px dotted black;
+}
+
+.taskPriorityDescriptionRow {
+    position: relative;
+    display: flex;
+    height: 50%;
+    width: 100%;
+    align-items: center;
+    text-align: left;
+    font-size: 0.75em;
+    font-style: italic;
+    padding-left: 7px;
+    padding-right: 7px;
+    border: 1px dotted black;
+}
+
+#taskTagField {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-top: 3vh;
+    height: 21vh;
+    width: 49vw;
+    margin-left: 1.5vw;
+    border: 1px dotted black;
+}
+
+.taskTagFieldRow {
+    position: relative;
+    display: flex;
+    height: fit-content;
+    width: 100%;
+    align-items: center;
+    border: 1px dotted black;
+}
+
+#taskTagTitle {
+    padding: 7px 5px;
+}
+
+#taskTagListRow {
+    padding: 5px;
+    font-size: 0.8em;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+    background-color: #000000;
+    background-color: #00000066;
+}
+
+.modal-content {
+    background-color: #FEFEFE;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid black;
+    width: 80%;
+}
+
+.close {
+    color: #AAAAAA;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover, .close:focus {
+    color: #000000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.tagContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px dotted black;
+}
+
+.tag {
+    position: relative;
+    display: flex;
+    height: 100%;
+    width: fit-content;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    font-size: 0.85em;
+    font-weight: bold;
+}
+
+.tag:nth-child(1) {
+    margin-left: 1.25vw;
+}
+
+#tagTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+#tagTable th {
+    font-size: 2em;
+    margin-bottom: 1vh;
+}
+
+#tagTable tr {
+    padding: 5px;
+}
+
+#tagTable td{
+    padding: 10px;
+    text-align: center;
+    font-size: 1.5em;                   
+}
+
+#taskTagInputField {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 18vh;
+}
+
+#taskTagEntry {
+    padding: 0 15px;
+    width: 40vw;
+}
+
+#taskTagInputField {
+    width: 70%;
+}
+
+#taskTagDescriptionField {
+    position: relative;
+    display: flex;
+    height: 4vh;
+    width: fit-content;
+    padding: 5px 15px;
+    font-size: 0.75em;
+    align-items: center;
+    text-align: center;
+    font-style: italic;
+    font-size: 0.75em;
+    border: 1px dotted black;
+}
+
+#leftPageBottomButtonField {
+    position: fixed;
+    display: flex;
+    bottom: 0;
+    height: 6vh;
+    width: 51%;
+    align-items: center;
+    border: 1px dotted black;
+}
+
+.leftPageBottomButtonSubfield {
+    position: relative;
+    display: flex;
+    height: 100%;
+    flex: 1;
+    padding: 0 2.5vw;
+    align-items: center;
+    justify-content: space-around;
+    background-color: #b0b0b0;
+    border: 1px solid black;
+}
+
+.bottomRowButton {
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size: 1em;
+    background-color: grey;
+}
+
+#rightPageTitleField {
+    right: 0;
+}
+
+#rightPageBufferSpace {
+    position: relative;
+    height: 7vh;
+    width: 100%;
+}
+
+#userTaskField {
+    position: relative;
+    display: flex;
+    height: 80vh;
+    width: 100%;
+    border-top: 1px solid black;
+    overflow-y: auto;
+}
+
+#taskColumn {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    overflow-y: auto;
+}
+
+#taskColumnPlaceholder {
+    position: relative;
+    display: flex;
+    margin: auto;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.taskCell {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 25vh;
+    width: 100%;
+    justify-content: flex-start;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    flex-shrink: 0;
+}
+
+.taskCell:not(:first-child) {
+    margin-top: 2.5vh;
+}
+
+.taskTopRow {
+    position: relative;
+    display: flex;
+    flex: 0.65;
+    width: 100%;
+    justify-content: flex-start;
+}
+
+.taskNumberBox {
+    position: relative;
+    display: flex;
+    height: 100%;
+    width: 5%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-weight: bold;
+    border: 1px dotted black;
+}
+
+.taskTopRightBar {
+    position: relative;
+    display: flex;
+    height: 100%;
+    width: 90%; 
+    padding-left: 15px;
+    align-items: center;
+    font-size: 0.8em;
+    text-align: left;
+    font-style: italic;
+    border: 1px dotted black;
+}
+
+.taskMain {
+    position: relative;
+    display: flex;
+    width: 100%;
+    flex: 1.25;
+    padding: 10px 15px;
+    text-align: left;
+    border: 1px dotted black;
+}
+
+.taskTagRow {
+    position: relative;
+    display: flex;
+    margin-top: 0;
+    width: 100%;
+    flex: 0.75;
+    border: 1px dotted black;
+    overflow-x: scroll;
+}
+
+.taskCheckBox {
+    position: relative;
+    display: flex;
+    height: 100%;
+    flex: 0.035;
+    padding: 4px 7px;
+    border: 1px dotted black;
+}
+
+.taskBottomRow {
+    position: relative;
+    display: flex;
+    flex: 0.75;
+    width: 100%;
+}
+
+.taskCheckBox {
+    position: relative;
+    display: flex;
+    height: 100%;
+    flex: 0.035;
+    padding: 4px 7px;
+    border: 1px dotted black;
+}
+
+.taskInfoBar {
+    position: relative;
+    display: flex;
+    flex: 1;
+    height: auto;
+    padding: 4px 15px;
+    align-items: center;
+    font-size: 0.8em;
+    font-style: italic;
+    border: 1px dotted black;
+}
+
+.taskCheckBoxInput {
+    height: 100%;
+    width: 100%;
+    background-color: rgb(207, 197, 197);
+}
+
+#taskPageButtonField {
+    position: relative;
+    display: flex;
+    height: 6vh;
+    width: 100%;
+    justify-content: space-around;
+    background-color: #b0b0b0;
+    border: 1px solid black;
+}
