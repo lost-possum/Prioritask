@@ -6,20 +6,20 @@
 
 
 
-function appendTaskChildren(newTaskElements) {
-    newTaskElements.taskCheckBoxDiv.appendChild(newTaskElements.taskCheckBoxInput);
-    newTaskElements.taskTopRowDiv.appendChild(newTaskElements.taskNumberBoxDiv);
-    newTaskElements.taskTopRowDiv.appendChild(newTaskElements.taskTopRightBarDiv);
-    newTaskElements.taskBottomRowDiv.appendChild(newTaskElements.taskCheckBoxDiv);
-    newTaskElements.taskBottomRowDiv.appendChild(newTaskElements.taskInfoBarDiv);
-    newTaskElements.taskCellDiv.appendChild(newTaskElements.taskTopRowDiv);
-    newTaskElements.taskCellDiv.appendChild(newTaskElements.taskMainDiv);
-    newTaskElements.taskCellDiv.appendChild(newTaskElements.taskTagRowDiv);
-    newTaskElements.taskCellDiv.appendChild(newTaskElements.taskBottomRowDiv);    
+function appendTaskChildren(taskCheckBoxDiv, taskCheckBoxInput, taskTopRowDiv, taskNumberBoxDiv, taskTopRightBarDiv, taskBottomRowDiv, taskInfoBarDiv, taskCellDiv, taskMainDiv, taskTagRowDiv) {
+    taskCheckBoxDiv.appendChild(taskCheckBoxInput);
+    taskTopRowDiv.appendChild(taskNumberBoxDiv);
+    taskTopRowDiv.appendChild(taskTopRightBarDiv);
+    taskBottomRowDiv.appendChild(taskCheckBoxDiv);
+    taskBottomRowDiv.appendChild(taskInfoBarDiv);
+    taskCellDiv.appendChild(taskTopRowDiv);
+    taskCellDiv.appendChild(taskMainDiv);
+    taskCellDiv.appendChild(taskTagRowDiv);
+    taskCellDiv.appendChild(taskBottomRowDiv);    
 };
 
 
-function appendChildrenForCreateTaskFromData() {
+function appendChildrenForCreateTaskFromData(taskTopRowDiv, taskNumberBoxDiv, taskTopRightBarDiv, taskBottomRowDiv, taskCheckBoxDiv, taskInfoBarDiv, taskCellDiv, taskMainDiv, taskTagRowDiv) {
     taskTopRowDiv.appendChild(taskNumberBoxDiv);
     taskTopRowDiv.appendChild(taskTopRightBarDiv);
     taskBottomRowDiv.appendChild(taskCheckBoxDiv);
@@ -30,4 +30,7 @@ function appendChildrenForCreateTaskFromData() {
     taskCellDiv.appendChild(taskBottomRowDiv);
     
     document.getElementById('taskColumn').appendChild(taskCellDiv);
-}; 
+};
+
+
+export { appendTaskChildren, appendChildrenForCreateTaskFromData };

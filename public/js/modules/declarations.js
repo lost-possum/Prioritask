@@ -5,36 +5,60 @@
 // BEGIN CODE
 
 
+
+function declareBaseElements() {
+    const taskForm = document.getElementById('newTaskForm');
+    const taskDescriptionEntry = document.getElementById('taskDescriptionEntry');
+    const taskTagEntry = document.getElementById('taskTagEntry');
+    const tagTable = document.getElementById('tagTable');
+    const tagListInnerModalContent = document.getElementById('tagListInnerModalContent');
+    const defaultTagTable = document.getElementById('defaultTagTable');
+    const yearDropdown = document.getElementById('yearDropdown');
+    const tagListModal = document.getElementById('tagListModal');
+    const closeTagListModal = document.getElementsByClassName('close')[0];
+
+    let importInput = document.createElement('input');
+
+    return {
+        taskForm,
+        taskDescriptionEntry,
+        taskTagEntry,
+        tagTable,
+        tagListInnerModalContent,
+        defaultTagTable,
+        yearDropdown,
+        options,
+        tagListModal,
+        closeTagListModal,
+        importInput
+    };
+}
+
+
 function declareButtons() {
     const taskSubmitButton = document.getElementById('taskSubmitButton');
     const deleteTaskButton = document.getElementBydId('deleteTaskButton');
     const tagListModalButton = document.getElementById('tagListModalButton');
     const exportButton = document.getElementById('appDataExportButton');
     const importButton = document.getElementById('appDataImportButton');
-    const importInput = document.createElement('input');
 
     return {
         taskSubmitButton,
         deleteTaskButton,
         tagListModalButton,
         exportButton,
-        importButton,
-        importInput
+        importButton
     }
 };
 
 
-function taskFormDeclareElements() {
-    let taskDescriptionEntry = document.getElementById('taskDescriptionEntry');
-    let taskTagEntry = document.getElementById('taskTagEntry');
+function taskFormDeclareElements(taskDescriptionEntry, taskTagEntry) {
     let taskDescriptionValue = taskDescriptionEntry.value.trim();
     let taskTagValue = taskTagEntry.value.trim();
     let savedTaskDescriptionEntry = localStorage.getItem('taskDescriptionEntry');
     let savedTaskTagEntry = localStorage.getItem('taskTagEntry');
 
     return {
-        taskDescriptionEntry,
-        taskTagEntry,
         taskDescriptionValue,
         taskTagValue,
         savedTaskDescriptionEntry,
@@ -43,7 +67,7 @@ function taskFormDeclareElements() {
 };
 
 
-function newTaskDeclareElements() {
+function newTaskDeclareElements(taskCount) {
     let taskCellDiv = document.createElement('div');
     let taskTopRowDiv = document.createElement('div');
     let taskNumberBoxDiv = document.createElement('div');
@@ -87,8 +111,7 @@ function newTaskDeclareElements() {
     taskCheckBoxInput.id = `taskCheckBoxInput-task${taskCount}`;
     taskCheckBoxInput.type = 'checkbox';
 
-    return {
-        taskCount,
+    return taskCount, {
         taskCellDiv,
         taskTopRowDiv,
         taskNumberBoxDiv,
@@ -113,17 +136,12 @@ function newTaskDeclareElements() {
 
 
 function declareDropdownContent() {
-    let selectedMonthOption = document.getElementById('monthDropdown').options[document.getElementById('monthDropdown').selectedIndex];
-    let selectedMonthOptionId = selectedMonthOption.id;
-    let selectedMonthNumber = selectedMonthOptionId.split('-m')[1];
+    let selectedMonthNumber = (document.getElementById('monthDropdown').options[document.getElementById('monthDropdown').selectedIndex]).id.split('-m')[1];
     let selectedMonthNumberInt = parseInt(selectedMonthNumber, 10);
     let selectedYearNumberInt = parseInt(selectedYear, 10);
     let selectedDayNumberInt = parseInt(selectedDay, 10);
     
     return {
-        selectedMonthOption,
-        selectedMonthOptionId,
-        selectedMonthNumber,
         selectedMonthNumberInt,
         selectedYearNumberInt,
         selectedDayNumberInt
@@ -131,4 +149,4 @@ function declareDropdownContent() {
 };
 
 
-export { declareButtons, taskFormDeclareElements, newTaskDeclareElements, declareDropdownContent };
+export { declareBaseElements, declareButtons, taskFormDeclareElements, newTaskDeclareElements, declareDropdownContent };

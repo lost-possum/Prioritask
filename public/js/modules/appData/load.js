@@ -9,21 +9,6 @@
 import { getAppData, createTagTableFromData, createTaskFromData, removePlaceholderIfTaskExists } from "../../export.js";
 
 
-function loadTasksFromAppData() {
-    let savedTasks = getAppData('savedTasks');
-
-    if (savedTasks) {
-        savedTasks = JSON.parse(savedTasks).tasks;
-        for (let taskId in savedTasks) {
-            let taskData = savedTasks[taskId];
-            createTaskFromData(taskData);
-        }
-    }
-
-    removePlaceholderIfTaskExists();
-};
-
-
 function loadUserTagsFromAppData() {
     let userTags = getAppData('userTags');
     if (userTags) {
@@ -33,4 +18,19 @@ function loadUserTagsFromAppData() {
 };
 
 
-export { loadTasksFromAppData, loadUserTagsFromAppData };
+function loadTasksFromAppData(taskCount, taskTopRowDiv, taskNumberBoxDiv, taskTopRightBarDiv, taskBottomRowDiv, taskCheckBoxDiv, taskInfoBarDiv, taskCellDiv, taskMainDiv, taskTagRowDiv) {
+    let savedTasks = getAppData('savedTasks');
+
+    if (savedTasks) {
+        savedTasks = JSON.parse(savedTasks).tasks;
+        for (let taskId in savedTasks) {
+            let taskData = savedTasks[taskId];
+            createTaskFromData(taskCount, taskData, taskTopRowDiv, taskNumberBoxDiv, taskTopRightBarDiv, taskBottomRowDiv, taskCheckBoxDiv, taskInfoBarDiv, taskCellDiv, taskMainDiv, taskTagRowDiv);
+        }
+    }
+
+    removePlaceholderIfTaskExists();
+};
+
+
+export { loadUserTagsFromAppData, loadTasksFromAppData };

@@ -6,6 +6,23 @@
 
 
 
+import { setAppData } from "../../export.js"
+
+
+function saveUserTagsToAppData() {
+    let tags = {};
+    let tagElements = document.querySelectorAll('#tagTable .tag');
+
+    tagElements.forEach(function(tagElement) {
+        let tagId = tagElement.id;
+        let tagText = tagElement.textContent;
+        tags[tagId] = tagText;
+    });
+
+    setAppData('userTags', JSON.stringify({ tags: tags }), 30);
+};
+
+
 function saveTasksToAppData() {
     let tasks = {};
     let taskCells = document.querySelectorAll('.taskCell');
@@ -52,15 +69,4 @@ function saveTasksToAppData() {
 };
 
 
-function saveUserTagsToAppData() {
-    let tags = {};
-    let tagElements = document.querySelectorAll('#tagTable .tag');
-
-    tagElements.forEach(function(tagElement) {
-        let tagId = tagElement.id;
-        let tagText = tagElement.textContent;
-        tags[tagId] = tagText;
-    });
-
-    setAppData('userTags', JSON.stringify({ tags: tags }), 30);
-};
+export { saveUserTagsToAppData, saveTasksToAppData };

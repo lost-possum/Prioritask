@@ -6,14 +6,10 @@
 
 
 
-// import {  } from "";
+import { sortTagsAZ, deleteTags, appendChildrenForCreateTaskFromData } from "../dom/tags";
 
 
-function createTagTableFromData(tags) {
-    let tagListInnerModalContent = document.getElementById('tagListInnerModalContent');
-    let tagTable = document.getElementById('tagTable');
-    let defaultTagTable = document.getElementById('defaultTagTable');
-
+function createTagTableFromData(tags, tagTable, tagListInnerModalContent, defaultTagTable) {
     if (defaultTagTable) {
         defaultTagTable.remove();
     }
@@ -37,14 +33,16 @@ function createTagTableFromData(tags) {
         buttonCell.style.textAlign = 'center';
 
         let tagCellSortButton = document.createElement('button');
-
+        tagCellSortButton.id = 'tagCellSortButton';
         tagCellSortButton.textContent = 'Sort (A-Z)';
+
         tagCellSortButton.addEventListener('click', function(e) {
             e.preventDefault();
             sortTagsAZ();
         });
 
         let tagCellDeleteButton = document.createElement('button');
+        tagCellDeleteButton.id = 'tagCellDeleteButton';
         tagCellDeleteButton.textContent = 'Delete Selected';
 
         tagCellDeleteButton.addEventListener('click', function(e) {
@@ -55,10 +53,12 @@ function createTagTableFromData(tags) {
         buttonCell.appendChild(tagCellSortButton);
         buttonCell.appendChild(tagCellDeleteButton);
         buttonRow.appendChild(buttonCell);
+
         tagListInnerModalContent.appendChild(tagTable);
     }
 
     let existingTags = new Set();
+
     Array.from(tagTable.getElementsByClassName('tag')).forEach(tagElement => {
         existingTags.add(tagElement.textContent.trim());
     });
@@ -100,18 +100,25 @@ function createTagTableFromData(tags) {
         tagCell.appendChild(tagContainer);
 
         existingTags.add('#' + tag);
+
         tagCountInRow++;
         tagListTagCount++;
     }
+
+    console.log('Execution of createTagTableFromData() complete; returning tagCountInRow and tagListTagCount');
+    console.log('tagCountInRow: ', tagCountInRow, ' tagListTagCount: ', tagListTagCount);
 
     return tagCountInRow, tagListTagCount;
 };
 
 
-function createTaskFromData(taskData) {
-    taskCount++;
+function createTaskFromData(taskCount, taskData, taskTopRowDiv, taskNumberBoxDiv, taskTopRightBarDiv, taskBottomRowDiv, taskCheckBoxDiv, taskInfoBarDiv, taskCellDiv, taskMainDiv, taskTagRowDiv) {
+    console.log('Executing createTaskFromData()');
 
-    let createTaskFromDataNewElements = newTaskDeclareElements(taskCount);
+    taskCount++;
+    console.log('Increasing taskCount by 1; new taskCount: ', taskCount);
+
+    let { taskNumberBoxDiv, taskTopRightBarDiv, taskMainDiv, taskTagRowDiv, taskInfoBarDiv }  = newTaskDeclareElements(taskCount);
     let taskTopRowData = taskData[`taskTopRow-task${taskCount}`];
         
     if (taskTopRowData) {
@@ -146,7 +153,7 @@ function createTaskFromData(taskData) {
         taskInfoBarDiv.textContent = taskBottomRowData[`taskInfoBar-task${taskCount}`]?.text || '';
     }
     
-    appendChildrenForCreateTaskFromData();
+    appendChildrenForCreateTaskFromData(taskTopRowDiv, taskNumberBoxDiv, taskTopRightBarDiv, taskBottomRowDiv, taskCheckBoxDiv, taskInfoBarDiv, taskCellDiv, taskMainDiv, taskTagRowDiv);
 
     return taskCount;
 };

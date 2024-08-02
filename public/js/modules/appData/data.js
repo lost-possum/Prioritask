@@ -6,6 +6,9 @@
 
 
 
+import { loadUserTagsFromAppData, loadTasksFromAppData, removePlaceholderIfTaskExists, saveUserTagsToAppData, saveTasksToAppData } from "../../export.js";
+
+
 function setAppData(name, value, days) {
     let expires = "";
 
@@ -68,6 +71,7 @@ function importAppData(e) {
 
         // Remove existing tasks before loading new ones
         let taskColumn = document.getElementById('taskColumn');
+
         while (taskColumn.firstChild) {
             taskColumn.removeChild(taskColumn.firstChild);
         }

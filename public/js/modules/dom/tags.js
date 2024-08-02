@@ -106,11 +106,11 @@ function createTagTable(tagsArray) {
 };
 
 
-function sortTagsAZ() {
+function sortTagsAZ(tagTable) {
     let tagTable = document.getElementById('tagTable');
         
     if (!tagTable) {
-        console.error('tagTable not found; terminating sortTagsAZ');
+        console.error('tagTable not found; terminating sortTagsAZ()');
         return;
     };
 
@@ -198,3 +198,6 @@ function deleteTags() {
     
     return tagListTagCount;
 };
+
+
+export { createTagTable, sortTagsAZ, deleteTags };

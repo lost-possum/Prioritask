@@ -14,17 +14,17 @@
 
 
 
-// import { } from "";
+import { declareBaseElements, declareButtons, populateYearDropdown, saveTasksToAppData, loadTasksFromAppData, loadUserTagsFromAppData, taskFormDeclareElements, createTask, exportAppData } from "./export";
 
 
 document.addEventListener('DOMContentLoaded', function() {
     let taskCount = 0;
     let currentYear = new Date().getFullYear();
 
-    const taskForm = document.getElementById('newTaskForm');
-    const buttons = declareButtons();
+    const { taskForm, taskDescriptionEntry, taskTagEntry, tagTable, tagListInnerModalContent, defaultTagTable, yearDropdown, tagListModal, closeTagListModal, importInput } = declareBaseElements();
+    const { taskSubmitButton, deleteTaskButton, tagListModalButton, exportButton, importButton } = declareButtons;
 
-    populateYearDropdown();
+    populateYearDropdown(currentYear, yearDropdown);
 
     deleteTaskButton.addEventListener('click', function(e) {
         e.preventDefault();
@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         checkedTaskCheckboxes.forEach(function(checkbox) {
             let taskCell = checkbox.closest('.taskCell');
+
             if (taskCell) {
                 taskCell.remove();
             }
@@ -47,34 +48,30 @@ document.addEventListener('DOMContentLoaded', function() {
     taskForm.addEventListener('submit', function(e) {
         e.preventDefault();
 
-        let taskFormElements = taskFormDeclareElements;
+        let { taskDescriptionValue, taskTagValue, savedTaskDescriptionEntry, savedTaskTagEntry } = taskFormDeclareElements(taskDescriptionEntry, taskTagEntry);
 
         if (taskDescriptionValue !== "") {
-            taskFormElements.taskDescriptionEntry.value = taskFormElements.savedTaskDescriptionEntry || '';
-            taskFormElements.taskTagEntry.value = taskFormElements.savedTaskTagEntry || '';
+            taskDescriptionEntry.value = savedTaskDescriptionEntry || '';
+            taskTagEntry.value = savedTaskTagEntry || '';
 
-            localStorage.setItem('taskDescriptionEntry', taskForm.taskDescriptionValue);
-            localStorage.setItem('taskTagEntry', taskForm.taskTagValue);
+            localStorage.setItem('taskDescriptionEntry', taskDescriptionValue);
+            localStorage.setItem('taskTagEntry', taskTagValue);
 
-            createTask(taskFormElements.taskDescriptionValue, taskForm.taskTagValue);
+            createTask(taskCount, taskDescriptionValue, taskTagValue, tagTable);
 
-            taskFormElements.taskDescriptionEntry.value = '';
-            taskFormElements.taskTagEntry.value = '';
+            taskDescriptionEntry.value = '';
+            taskTagEntry.value = '';
         } else {
             window.alert('Please enter a task description.');
         }
     });
 
-    document.getElementById('taskDescriptionEntry').addEventListener('keydown', function(e) {
+    taskDescriptionEntry.addEventListener('keydown', function(e) {
         if (e.key === 'Enter') {
             e.preventDefault();
-            document.getElementById('taskSubmitButton').click();
+            taskSubmitButton.click();
         }
     });
-
-    let tagListModal = document.getElementById('tagListModal');
-    let tagListModalButton = document.getElementById('tagListModalButton');
-    let closeTagListModal = document.getElementsByClassName('close')[0];
 
     tagListModalButton.onclick = function(e) {
         e.preventDefault();
@@ -102,7 +99,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     importButton.addEventListener('click', function(e) {
         e.preventDefault();
+
         let placeholder = document.getElementById('taskColumnPlaceholder');
+
         if (placeholder) {
             placeholder.remove();
         }
